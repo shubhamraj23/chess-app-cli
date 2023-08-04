@@ -1,12 +1,13 @@
 #include <string>
 
 class Piece {
-  private:
+  protected:
     std::string colour;
     std::string type;
     bool alive;
 
   public:
+    Piece(std::string colour);
     virtual bool isValid(std::string start, std::string end) = 0;
     virtual void move(std::string start, std::string end) = 0;
 };
