@@ -7,7 +7,8 @@ project(chess-app-cli)
 # Add the executable and list your source files
 add_executable(
   game
+  game.cpp
   Board.cpp
   Cell.cpp
-  game.cpp
+  Piece.cpp
 )
