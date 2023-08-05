@@ -22,23 +22,23 @@ Board::Board() {
   board[0][7] = Cell(0, 7, q);
 
   // Both the knights.
-  Piece* p = new Knight("white");
+  p = new Knight("white");
   board[0][1] = Cell(0, 1, p);
-  Piece* q = new Knight("white");
+  q = new Knight("white");
   board[0][6] = Cell(0, 6, q);
 
   // Both the bishops.
-  Piece* p = new Bishop("white");
+  p = new Bishop("white");
   board[0][2] = Cell(0, 2, p);
-  Piece* q = new Bishop("white");
+  q = new Bishop("white");
   board[0][5] = Cell(0, 5, q);
 
   // Queen.
-  Piece* p = new Queen("white");
+  p = new Queen("white");
   board[0][3] = Cell(0, 3, p);
   
   // King.
-  Piece* p = new King("white");
+  p = new King("white");
   board[0][4] = Cell(0, 4, p);
   
 
@@ -50,29 +50,29 @@ Board::Board() {
   }
 
   // Both the rooks.
-  Piece* p = new Rook("black");
+  p = new Rook("black");
   board[7][0] = Cell(7, 0, p);
-  Piece* q = new Rook("black");
+  q = new Rook("black");
   board[7][7] = Cell(7, 7, q);
 
   // Both the knights.
-  Piece* p = new Knight("black");
+  p = new Knight("black");
   board[7][1] = Cell(7, 1, p);
-  Piece* q = new Knight("black");
+  q = new Knight("black");
   board[7][6] = Cell(7, 6, q);
 
   // Both the bishops.
-  Piece* p = new Bishop("black");
+  p = new Bishop("black");
   board[7][2] = Cell(7, 2, p);
-  Piece* q = new Bishop("black");
+  q = new Bishop("black");
   board[7][5] = Cell(7, 5, q);
 
   // Queen.
-  Piece* p = new Queen("black");
+  p = new Queen("black");
   board[7][3] = Cell(7, 3, p);
   
   // King.
-  Piece* p = new King("black");
+  p = new King("black");
   board[7][4] = Cell(7, 4, p);
 
 }
