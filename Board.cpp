@@ -1,5 +1,8 @@
+#include <iostream>
+#include <string>
 #include "Board.h"
 
+// Default Constructor for initialization.
 Board::Board() {
   // Initialize the empty cells.
   for (int i=2; i<6; i++) {
@@ -75,4 +78,25 @@ Board::Board() {
   p = new King("black");
   board[7][4] = Cell(7, 4, p);
 
+}
+
+// Function to print all the contents of the board.
+void Board::printBoard() {
+  for (int i=7; i>=0; i--) {
+    for (int j=0; j<8; j++) {
+      if (board[i][j].getEmpty()) {
+        std::cout << std::string(12, ' ') << " ";
+      }
+      else {
+        Piece* p = board[i][j].getPiece();
+        std::string colour = p->getColour();
+        std::string type = p->getType();
+        int pad = 11 - colour.length() - type.length();
+        int lpad = pad / 2;
+        int rpad = 11 - lpad;
+        std::cout << std::string(lpad, ' ') << colour << " " << type << std::string(rpad, ' ') << " ";
+      }
+    }
+    std::cout << std::endl;
+  }
 }

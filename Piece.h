@@ -8,6 +8,10 @@ class Piece {
 
   public:
     Piece(std::string colour);
+    std::string getColour();
+    std::string getType();
+    bool getAlive();
+    void setAlive(bool a);
     virtual bool isValid(std::string start, std::string end) = 0;
     virtual void move(std::string start, std::string end) = 0;
 };

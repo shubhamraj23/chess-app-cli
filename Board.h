@@ -5,5 +5,6 @@ class Board {
     Cell board[8][8];
 
   public:
-    Board();  // Constructor
+    Board();
+    void printBoard();
 };
