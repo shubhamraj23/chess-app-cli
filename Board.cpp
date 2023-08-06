@@ -93,7 +93,7 @@ void Board::printBoard() {
         std::string type = p->getType();
         int pad = 11 - colour.length() - type.length();
         int lpad = pad / 2;
-        int rpad = 11 - lpad;
+        int rpad = pad - lpad;
         std::cout << std::string(lpad, ' ') << colour << " " << type << std::string(rpad, ' ') << " ";
       }
     }

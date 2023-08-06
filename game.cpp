@@ -17,7 +17,7 @@ int main() {
 
   while(!checkmate) {
     std::string input;
-    std::cout << turn << "'s turn: " << std::endl;
+    std::cout << turn << "'s turn: ";
     std::cin >> input;
     
     if (input == "print") {
