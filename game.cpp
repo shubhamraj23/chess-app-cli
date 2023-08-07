@@ -18,8 +18,15 @@ int main() {
   while(!checkmate) {
     std::string input;
     std::cout << turn << "'s turn: ";
-    std::cin >> input;
+    std::getline(std::cin, input);
+
+    // Check if the input provided is correct or not.
+    if (!board.checkInput(input)) {
+      std::cout << "Invalid input format. Please try again." << std::endl;
+      continue;
+    }
     
+    // If the input is print, print all the contents of the board.
     if (input == "print") {
       board.printBoard();
       continue;

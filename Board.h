@@ -1,3 +1,4 @@
+#include <string>
 #include "Cell.h"
 
 class Board {
@@ -7,4 +8,6 @@ class Board {
   public:
     Board();
     void printBoard();
+    bool checkInput(std::string input);
+    bool checkCell(char letter, char number);
 };
