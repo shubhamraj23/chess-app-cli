@@ -31,5 +31,11 @@ int main() {
       board.printBoard();
       continue;
     }
-  }  
+
+    // Check if the correct piece is present at the source cell.
+    if (!board.checkPiecePresent(input[0], input.substr(2, 2))) {
+      std::cout << "No " << board.pieceMapper(input[0]) << " present at cell " << input.substr(2, 2) << ". Please try again." << std::endl;
+      continue;
+    }
+  }
 }

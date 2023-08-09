@@ -5,13 +5,13 @@ Cell::Cell() {}
 
 // Constructor for cells without a piece.
 Cell::Cell(int i, int j) {
-  Cell::assignCellName(i, j);
+  assignCellName(i, j);
   empty = true;
 }
 
 // Constructor for cells with a piece.
 Cell::Cell(int i, int j, Piece* p) {
-  Cell::assignCellName(i, j);
+  assignCellName(i, j);
   empty = false;
   piece = p;
 }

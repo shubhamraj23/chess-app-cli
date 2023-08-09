@@ -107,7 +107,7 @@ bool Board::checkInput(std::string input) {
   if (input.length() != 7) return false;
   if (input[0] != 'P' && input[0] != 'R' && input[0] != 'N' && input[0] != 'B' && input[0] != 'Q' && input[0] != 'K') return false;
   if (input[1] != ' ' || input[4] != ' ') return false;
-  if (!Board::checkCell(input[2], input[3]) || !Board::checkCell(input[5], input[6])) return false;
+  if (!checkCell(input[2], input[3]) || !checkCell(input[5], input[6])) return false;
   return true;
 }
 
@@ -116,4 +116,33 @@ bool Board::checkCell(char letter, char number) {
   if (int(letter) < 97 || int(letter) > 104) return false;
   if (int(number) < 49 || int(number) > 56) return false;
   return true;
+}
+
+// Function to check if the piece is present at the location or not.
+bool Board::checkPiecePresent(char symbol, std::string cell) {
+  int row = int(cell[1] - 49);
+  int column = int(cell[0] - 97);
+  Cell c = board[row][column];
+  if (c.getEmpty()) return false;
+  Piece* p = c.getPiece();
+  if (p->getType() != pieceMapper(symbol)) return false;
+  return true;
+}
+
+// Function to map the character of a piece to its type.
+std::string Board::pieceMapper(char piece) {
+  switch(piece) {
+    case 'R':
+      return "rook";
+    case 'N':
+      return "knight";
+    case 'B':
+      return "bishop";
+    case 'Q':
+      return "queen";
+    case 'K':
+      return "king";
+    default:
+      return "pawn";
+  }
 }
