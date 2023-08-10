@@ -37,5 +37,16 @@ int main() {
       std::cout << "No " << board.pieceMapper(input[0]) << " present at cell " << input.substr(2, 2) << ". Please try again." << std::endl;
       continue;
     }
+
+    // Check if the move is a valid move or not.
+    if (!board.checkValidMove(input.substr(2, 2), input.substr(5, 2))) {
+      std::cout << "Invalid move." << std::endl;
+      continue;
+    }
+
+    // Move the piece.
+    board.movePiece(input.substr(2, 2), input.substr(5, 2));
+
+    // Check and checkmate.
   }
 }

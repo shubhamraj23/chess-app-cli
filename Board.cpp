@@ -120,13 +120,23 @@ bool Board::checkCell(char letter, char number) {
 
 // Function to check if the piece is present at the location or not.
 bool Board::checkPiecePresent(char symbol, std::string cell) {
-  int row = int(cell[1] - 49);
-  int column = int(cell[0] - 97);
-  Cell c = board[row][column];
-  if (c.getEmpty()) return false;
-  Piece* p = c.getPiece();
+  Piece* p = findPiece(cell);
+  if (p == NULL) return false;
   if (p->getType() != pieceMapper(symbol)) return false;
   return true;
+}
+
+// Function to check if the move is a valid move or not.
+bool Board::checkValidMove(std::string source, std::string destination) {
+  Piece* p = findPiece(source);
+  // Other checks. King goes in check. King still in check.
+  return p->isValid(source, destination);
+}
+
+// Function to move the piece from source to destination.
+void Board::movePiece(std::string source, std::string destination) {
+  Piece* p = findPiece(source);
+  p->move(source, destination);
 }
 
 // Function to map the character of a piece to its type.
@@ -145,4 +155,13 @@ std::string Board::pieceMapper(char piece) {
     default:
       return "pawn";
   }
+}
+
+// Function to get the piece present on the cell.
+Piece* Board::findPiece(std::string cell) {
+  int row = int(cell[1] - 49);
+  int column = int(cell[0] - 97);
+  Cell c = board[row][column];
+  if (c.getEmpty()) return NULL;
+  return c.getPiece();
 }
