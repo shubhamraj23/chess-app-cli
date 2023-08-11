@@ -1,4 +1,3 @@
-#include <string>
 #include "Piece.h"
 
 // Implementation for Piece Class

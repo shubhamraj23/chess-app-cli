@@ -8,11 +8,8 @@ class Board {
   public:
     Board();
     void printBoard();
-    bool checkInput(std::string input);
-    bool checkCell(char letter, char number);
+    Cell findCell(std::string cell);
+    Piece* findPiece(Cell cell);
     bool checkPiecePresent(char symbol, std::string cell);
-    bool checkValidMove(std::string source, std::string destination);
-    void movePiece(std::string source, std::string destination);
-    std::string pieceMapper(char piece);
-    Piece* findPiece(std::string cell);
+    static std::string pieceMapper(char piece);
 };

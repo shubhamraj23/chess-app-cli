@@ -12,48 +12,42 @@ class Piece {
     std::string getType();
     bool getAlive();
     void setAlive(bool a);
-    virtual bool isValid(std::string source, std::string destination) = 0;
-    virtual void move(std::string source, std::string destination) = 0;
+    void move(Cell source, Cell destination);
+    virtual bool isValid(Cell source, Cell destination) = 0;
 };
 
 class Pawn : public Piece {
   public:
     Pawn(std::string colour);
-    bool isValid(std::string source, std::string destination) override;
-    void move(std::string source, std::string destination) override;
+    bool isValid(Cell source, Cell destination) override;
 };
 
 class Rook : public Piece {
   public:
     Rook(std::string colour);
-    bool isValid(std::string source, std::string destination) override;
-    void move(std::string source, std::string destination) override;
+    bool isValid(Cell source, Cell destination) override;
 };
 
 class Knight : public Piece {
   public:
     Knight(std::string colour);
-    bool isValid(std::string source, std::string destination) override;
-    void move(std::string source, std::string destination) override;
+    bool isValid(Cell source, Cell destination) override;
 };
 
 class Bishop : public Piece {
   public:
     Bishop(std::string colour);
-    bool isValid(std::string source, std::string destination) override;
-    void move(std::string source, std::string destination) override;
+    bool isValid(Cell source, Cell destination) override;
 };
 
 class Queen : public Piece {
   public:
     Queen(std::string colour);
-    bool isValid(std::string source, std::string destination) override;
-    void move(std::string source, std::string destination) override;
+    bool isValid(Cell source, Cell destination) override;
 };
 
 class King : public Piece {
   public:
     King(std::string colour);
-    bool isValid(std::string source, std::string destination) override;
-    void move(std::string source, std::string destination) override;
+    bool isValid(Cell source, Cell destination) override;
 };

@@ -10,6 +10,7 @@ add_executable(
   game.cpp
   Board.cpp
   Cell.cpp
+  Move.cpp
   Piece.cpp
   Player.cpp
 )

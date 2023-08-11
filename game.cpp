@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include "Board.h"
+#include "Move.h"
 #include "Player.h"
 
 int main() {
@@ -21,11 +22,12 @@ int main() {
   while(!white.getCheckmate() && !black.getCheckmate()) {
     std::string input;
     Player player = players[playerIndex];
+    Player opponent = players[(playerIndex+1)%2];
     std::cout << player.getName() << "'s turn: ";
     std::getline(std::cin, input);
 
     // Check if the input provided is correct or not.
-    if (!board.checkInput(input)) {
+    if (!Move::checkInput(input)) {
       std::cout << "Invalid input format. Please try again." << std::endl;
       continue;
     }
@@ -38,18 +40,23 @@ int main() {
 
     // Check if the correct piece is present at the source cell.
     if (!board.checkPiecePresent(input[0], input.substr(2, 2))) {
-      std::cout << "No " << board.pieceMapper(input[0]) << " present at cell " << input.substr(2, 2) << ". Please try again." << std::endl;
+      std::cout << "No " << Board::pieceMapper(input[0]) << " present at cell " << input.substr(2, 2) << ". Please try again." << std::endl;
       continue;
     }
 
+    // If the piece exists create a move object.
+    Cell source = board.findCell(input.substr(2, 2));
+    Cell destination = board.findCell(input.substr(5, 2));
+    Move move = Move(board.findPiece(source), source, destination);
+
     // Check if the move is a valid move or not.
-    if (!board.checkValidMove(input.substr(2, 2), input.substr(5, 2))) {
+    if (!move.checkValidMove()) {
       std::cout << "Invalid move." << std::endl;
       continue;
     }
 
     // Move the piece.
-    board.movePiece(input.substr(2, 2), input.substr(5, 2));
+    move.movePiece();
 
     // Check and checkmate.
   }
