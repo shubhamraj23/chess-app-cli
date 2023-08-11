@@ -11,4 +11,5 @@ add_executable(
   Board.cpp
   Cell.cpp
   Piece.cpp
+  Player.cpp
 )

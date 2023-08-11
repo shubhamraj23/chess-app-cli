@@ -1,11 +1,14 @@
 #include <iostream>
 #include <string>
 #include "Board.h"
+#include "Player.h"
 
 int main() {
   Board board = Board();
-  std::string turn = "White";
-  bool checkmate = false;
+  Player white = Player("White");
+  Player black = Player("Black");
+  Player players[2] = {white, black};
+  int playerIndex = 0;
 
   std::cout << "Welcome to the CLI chess application." << std::endl;
   std::cout << "Enter the commands in the format: piece from to" << std::endl;
@@ -15,9 +18,10 @@ int main() {
   std::cout << "To move the pawn in front of the king two steps, the command would be: P e2 e4" << std::endl;
   std::cout << "Use the command print to print the contents of the board." << std::endl;
 
-  while(!checkmate) {
+  while(!white.getCheckmate() && !black.getCheckmate()) {
     std::string input;
-    std::cout << turn << "'s turn: ";
+    Player player = players[playerIndex];
+    std::cout << player.getName() << "'s turn: ";
     std::getline(std::cin, input);
 
     // Check if the input provided is correct or not.

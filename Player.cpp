@@ -4,6 +4,8 @@
 // Constructor
 Player::Player(std::string n) {
   name = n;
+  check = false;
+  checkmate = false;
 }
 
 std::string Player::getName() {
