@@ -1,4 +1,6 @@
 #include <string>
+#include "Board.h"
+#include "Cell.h"
 
 class Piece {
   protected:

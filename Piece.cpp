@@ -28,6 +28,22 @@ void Piece::setAlive(bool a) {
   alive = a;
 }
 
+// Function to move a piece from the source to the destination.
+void Piece::move(Cell source, Cell destination) {
+  // If the destination cell is not empty, remove the piece.
+  if (!destination.getEmpty()) {
+    Piece* p = destination.getPiece();
+    p->setAlive(false);
+    free(p);
+  }
+
+  // Move the piece.
+  Piece* p = source.getPiece();
+  destination.setEmpty(false);
+  destination.setPiece(p);
+  source.setEmpty(true);
+  source.setPiece(NULL);
+}
 
 // Implementation for Pawn Class
 // Constructor
@@ -35,6 +51,7 @@ Pawn::Pawn(std::string c) : Piece(c) {
   type = "pawn";
 }
 
+// Function to check if the move is a valid move or not for a pawn.
 bool Pawn::isValid(Cell source, Cell destination, Board board) {
   std::string colour = getColour();
   
@@ -94,11 +111,21 @@ Rook::Rook(std::string c) : Piece(c) {
   type = "rook";
 }
 
+// Function to check if the move is a valid move or not for a rook.
+bool Rook::isValid(Cell source, Cell destination, Board board) {
+  return true;
+}
+
 
 // Implementation for Knight Class
 // Constructor
 Knight::Knight(std::string c) : Piece(c) {
   type = "knight";
+}
+
+// Function to check if the move is a valid move or not for a knight.
+bool Knight::isValid(Cell source, Cell destination, Board board) {
+  return true;
 }
 
 
@@ -108,6 +135,10 @@ Bishop::Bishop(std::string c) : Piece(c) {
   type = "bishop";
 }
 
+// Function to check if the move is a valid move or not for a bishop.
+bool Bishop::isValid(Cell source, Cell destination, Board board) {
+  return true;
+}
 
 // Implementation for Queen Class
 // Constructor
@@ -115,9 +146,19 @@ Queen::Queen(std::string c) : Piece(c) {
   type = "queen";
 }
 
+// Function to check if the move is a valid move or not for a queen.
+bool Queen::isValid(Cell source, Cell destination, Board board) {
+  return true;
+}
+
 
 // Implementation for King Class
 // Constructor
 King::King(std::string c) : Piece(c) {
   type = "king";
+}
+
+// Function to check if the move is a valid move or not for a king.
+bool King::isValid(Cell source, Cell destination, Board board) {
+  return true;
 }
