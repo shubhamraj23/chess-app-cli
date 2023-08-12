@@ -23,9 +23,9 @@ Cell Move::getDestination() {
 }
 
 // Function to check if the move is a valid move or not.
-bool Move::checkValidMove() {
-  // Other checks. King goes in check. King still in check.
-  return piece->isValid(source, destination);
+bool Move::checkValidMove(Board board) {
+  // Other checks. King goes in check. King still in check. //TODO
+  return piece->isValid(source, destination, board);
 }
 
 // Function to move the piece from source to destination.

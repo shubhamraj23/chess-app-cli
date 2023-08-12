@@ -1,4 +1,5 @@
 #include <string>
+#include "Board.h"
 #include "Cell.h"
 #include "Piece.h"
 
@@ -13,7 +14,7 @@ class Move {
     Piece* getPiece();
     Cell getSource();
     Cell getDestination();
-    bool checkValidMove();
+    bool checkValidMove(Board board);
     void movePiece();
     static bool checkInput(std::string input);
 };

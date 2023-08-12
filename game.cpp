@@ -50,8 +50,8 @@ int main() {
     Move move = Move(board.findPiece(source), source, destination);
 
     // Check if the move is a valid move or not.
-    if (!move.checkValidMove()) {
-      std::cout << "Invalid move." << std::endl;
+    if (!move.checkValidMove(board)) {
+      std::cout << "Invalid move. Please try again." << std::endl;
       continue;
     }
 
@@ -59,5 +59,8 @@ int main() {
     move.movePiece();
 
     // Check and checkmate.
+
+    // Next player's turn.
+    playerIndex = (playerIndex+1)%2;
   }
 }
