@@ -3,7 +3,8 @@
 
 class Cell {
   private:
-    std::string cellName;
+    int row;
+    int column;
     bool empty;
     Piece* piece;
 
@@ -11,6 +12,8 @@ class Cell {
     Cell();
     Cell(int i, int j);
     Cell(int i, int j, Piece* p);
+    int getRow();
+    int getColumn();
     bool getEmpty();
     void setEmpty(bool e);
     Piece* getPiece();

@@ -5,15 +5,27 @@ Cell::Cell() {}
 
 // Constructor for cells without a piece.
 Cell::Cell(int i, int j) {
-  cellName = assignCellName(i, j);
+  row = i+1;
+  column = j+1;
   empty = true;
 }
 
 // Constructor for cells with a piece.
 Cell::Cell(int i, int j, Piece* p) {
-  cellName = assignCellName(i, j);
+  row = i+1;
+  column = j+1;
   empty = false;
   piece = p;
+}
+
+// Function to get the row number of the cell.
+int Cell::getRow() {
+  return row;
+}
+
+// Function to get column number of the cell.
+int Cell::getColumn() {
+  return column;
 }
 
 // Function to get the value of empty.
@@ -34,11 +46,4 @@ Piece* Cell::getPiece() {
 // Function to set the pointer to Piece.
 void Cell::setPiece(Piece* p) {
   piece = p;
-}
-
-
-// Helper functions.
-// Function to assign the cell name to the cell.
-std::string assignCellName(int i, int j) {
-  return std::string(1, char(97 + j)) + std::string(1, char(49 + i));
 }
