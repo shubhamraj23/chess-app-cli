@@ -1,5 +1,10 @@
+#ifndef CELL_H
+#define CELL_H
+
 #include <string>
 #include "Piece.h"
+
+class Piece;
 
 class Cell {
   private:
@@ -19,3 +24,5 @@ class Cell {
     Piece* getPiece();
     void setPiece(Piece* p);
 };
+
+#endif

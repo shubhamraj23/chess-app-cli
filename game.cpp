@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include "Board.h"
+#include "Cell.h"
 #include "Move.h"
 #include "Player.h"
 
@@ -50,7 +51,7 @@ int main() {
     Move move = Move(board.findPiece(source), source, destination);
 
     // Check if the move is a valid move or not.
-    if (!move.checkValidMove(board)) {
+    if (!move.checkValidMove(&board)) {
       std::cout << "Invalid move. Please try again." << std::endl;
       continue;
     }

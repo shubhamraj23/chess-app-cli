@@ -1,5 +1,5 @@
+#include "Piece.h"
 #include "Board.h"
-#include "Cell.h"
 
 // Implementation for Piece Class
 // Constructor
@@ -52,7 +52,7 @@ Pawn::Pawn(std::string c) : Piece(c) {
 }
 
 // Function to check if the move is a valid move or not for a pawn.
-bool Pawn::isValid(Cell source, Cell destination, Board board) {
+bool Pawn::isValid(Cell source, Cell destination, Board* board) {
   std::string colour = getColour();
   
   // All the valid cases come here.
@@ -73,7 +73,7 @@ bool Pawn::isValid(Cell source, Cell destination, Board board) {
       if (source.getRow() == 2 && destination.getRow() == 4) {
         // The cell in the column at row number 3 must be empty.
         std::string cellName = std::string(1, char(96 + source.getColumn())) + std::string(1, '3');
-        Cell between = board.findCell(cellName);
+        Cell between = board->findCell(cellName);
         if (between.getEmpty()) return true; 
       }
     }
@@ -84,7 +84,7 @@ bool Pawn::isValid(Cell source, Cell destination, Board board) {
       if (source.getRow() == 7 && destination.getRow() == 5) {
         // The cell in the column at row number 6 must be empty.
         std::string cellName = std::string(1, char(96 + source.getColumn())) + std::string(1, '6');
-        Cell between = board.findCell(cellName);
+        Cell between = board->findCell(cellName);
         if (between.getEmpty()) return true; 
       }
     }
@@ -102,6 +102,9 @@ bool Pawn::isValid(Cell source, Cell destination, Board board) {
   }
 
   // En pass
+
+  // If none of the conditions satisfy, the move is invalid.
+  return false;
 }
 
 
@@ -112,7 +115,7 @@ Rook::Rook(std::string c) : Piece(c) {
 }
 
 // Function to check if the move is a valid move or not for a rook.
-bool Rook::isValid(Cell source, Cell destination, Board board) {
+bool Rook::isValid(Cell source, Cell destination, Board* board) {
   return true;
 }
 
@@ -124,7 +127,7 @@ Knight::Knight(std::string c) : Piece(c) {
 }
 
 // Function to check if the move is a valid move or not for a knight.
-bool Knight::isValid(Cell source, Cell destination, Board board) {
+bool Knight::isValid(Cell source, Cell destination, Board* board) {
   return true;
 }
 
@@ -136,7 +139,7 @@ Bishop::Bishop(std::string c) : Piece(c) {
 }
 
 // Function to check if the move is a valid move or not for a bishop.
-bool Bishop::isValid(Cell source, Cell destination, Board board) {
+bool Bishop::isValid(Cell source, Cell destination, Board* board) {
   return true;
 }
 
@@ -147,7 +150,7 @@ Queen::Queen(std::string c) : Piece(c) {
 }
 
 // Function to check if the move is a valid move or not for a queen.
-bool Queen::isValid(Cell source, Cell destination, Board board) {
+bool Queen::isValid(Cell source, Cell destination, Board* board) {
   return true;
 }
 
@@ -159,6 +162,6 @@ King::King(std::string c) : Piece(c) {
 }
 
 // Function to check if the move is a valid move or not for a king.
-bool King::isValid(Cell source, Cell destination, Board board) {
+bool King::isValid(Cell source, Cell destination, Board* board) {
   return true;
 }

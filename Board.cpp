@@ -139,3 +139,10 @@ std::string Board::pieceMapper(char piece) {
       return "pawn";
   }
 }
+
+// Function to check if the provided cell is a valid chess cell or not.
+bool Board::checkCell(char letter, char number) {
+  if (int(letter) < 97 || int(letter) > 104) return false;
+  if (int(number) < 49 || int(number) > 56) return false;
+  return true;
+}
