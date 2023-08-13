@@ -5,13 +5,13 @@
 
 class Player {
   private:
-    std::string name;
+    std::string colour;
     bool check;
     bool checkmate;
 
   public:
-    Player(std::string name);
-    std::string getName();
+    Player(std::string colour);
+    std::string getColour();
     bool getCheck();
     void setCheck(bool c);
     bool getCheckmate();

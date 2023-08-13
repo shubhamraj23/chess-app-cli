@@ -1,7 +1,7 @@
 #include "Move.h"
 
 // Constructor
-Move::Move(Piece* p, Cell s, Cell d) {
+Move::Move(Piece* p, Cell* s, Cell* d) {
   piece = p;
   source = s;
   destination = d;
@@ -13,12 +13,12 @@ Piece* Move::getPiece() {
 }
 
 // Function to get the starting cell of the move.
-Cell Move::getSource() {
+Cell* Move::getSource() {
   return source;
 }
 
 // Function to get the ending cell of the move.
-Cell Move::getDestination() {
+Cell* Move::getDestination() {
   return destination;
 }
 

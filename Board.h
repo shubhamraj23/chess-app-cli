@@ -4,6 +4,7 @@
 #include <string>
 #include "Cell.h"
 #include "Piece.h"
+#include "Player.h"
 
 class Cell;
 class Piece;
@@ -13,11 +14,12 @@ class Board {
     Cell board[8][8];
 
   public:
-    Board();
+    Board(Player p1, Player p2);
     void printBoard();
-    Cell findCell(std::string cell);
-    Piece* findPiece(Cell cell);
+    Cell* findCell(std::string cell);
+    Piece* findPiece(Cell* cell);
     bool checkPiecePresent(char symbol, std::string cell);
+    bool checkPieceBelongsToPlayer(Piece* p, Player player);
     static std::string pieceMapper(char piece);
     static bool checkCell(char letter, char number);
 };

@@ -6,9 +6,9 @@
 #include "Player.h"
 
 int main() {
-  Board board = Board();
   Player white = Player("White");
   Player black = Player("Black");
+  Board board = Board(white, black);
   Player players[2] = {white, black};
   int playerIndex = 0;
 
@@ -24,7 +24,7 @@ int main() {
     std::string input;
     Player player = players[playerIndex];
     Player opponent = players[(playerIndex+1)%2];
-    std::cout << player.getName() << "'s turn: ";
+    std::cout << player.getColour() << "'s turn: ";
     std::getline(std::cin, input);
 
     // Check if the input provided is correct or not.
@@ -45,9 +45,15 @@ int main() {
       continue;
     }
 
+    // Check if the piece present belongs to the player or not.
+    if (!board.checkPieceBelongsToPlayer(board.findPiece(board.findCell(input.substr(2, 2))), player)) {
+      std::cout << "The specified piece doesn't belong to the " << player.getColour() << " player. Please try again. " << std::endl;
+      continue;
+    }
+
     // If the piece exists create a move object.
-    Cell source = board.findCell(input.substr(2, 2));
-    Cell destination = board.findCell(input.substr(5, 2));
+    Cell* source = board.findCell(input.substr(2, 2));
+    Cell* destination = board.findCell(input.substr(5, 2));
     Move move = Move(board.findPiece(source), source, destination);
 
     // Check if the move is a valid move or not.

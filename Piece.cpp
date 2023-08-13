@@ -29,20 +29,20 @@ void Piece::setAlive(bool a) {
 }
 
 // Function to move a piece from the source to the destination.
-void Piece::move(Cell source, Cell destination) {
+void Piece::move(Cell* source, Cell* destination) {
   // If the destination cell is not empty, remove the piece.
-  if (!destination.getEmpty()) {
-    Piece* p = destination.getPiece();
+  if (!destination->getEmpty()) {
+    Piece* p = destination->getPiece();
     p->setAlive(false);
     free(p);
   }
 
   // Move the piece.
-  Piece* p = source.getPiece();
-  destination.setEmpty(false);
-  destination.setPiece(p);
-  source.setEmpty(true);
-  source.setPiece(NULL);
+  Piece* p = source->getPiece();
+  destination->setEmpty(false);
+  destination->setPiece(p);
+  source->setEmpty(true);
+  source->setPiece(NULL);
 }
 
 // Implementation for Pawn Class
@@ -52,52 +52,52 @@ Pawn::Pawn(std::string c) : Piece(c) {
 }
 
 // Function to check if the move is a valid move or not for a pawn.
-bool Pawn::isValid(Cell source, Cell destination, Board* board) {
+bool Pawn::isValid(Cell* source, Cell* destination, Board* board) {
   std::string colour = getColour();
   
   // All the valid cases come here.
   // Pawn moves forward one step.
   // The column number is the same and destination cell should be empty.
-  if (source.getColumn() == destination.getColumn() && destination.getEmpty()) {
+  if (source->getColumn() == destination->getColumn() && destination->getEmpty()) {
     // If the piece is white, the row number must increment by one, else decrement by one.
-    if (colour == "white" && (destination.getRow() == source.getRow() + 1)) return true;
-    if (colour == "black" && (destination.getRow() == source.getRow() - 1)) return true;
+    if (colour == "White" && (destination->getRow() == source->getRow() + 1)) return true;
+    if (colour == "Black" && (destination->getRow() == source->getRow() - 1)) return true;
   }
 
   // Pawn moves forward two steps.
   // The column number is the same and destination cell should be empty.
-  if (source.getColumn() == destination.getColumn() && destination.getEmpty()) {
+  if (source->getColumn() == destination->getColumn() && destination->getEmpty()) {
     // This logic holds if the piece is a white piece.
-    if (colour == "white") {
+    if (colour == "White") {
       // Source cell must have row number 2 and destination cell must have row number 4.
-      if (source.getRow() == 2 && destination.getRow() == 4) {
+      if (source->getRow() == 2 && destination->getRow() == 4) {
         // The cell in the column at row number 3 must be empty.
-        std::string cellName = std::string(1, char(96 + source.getColumn())) + std::string(1, '3');
-        Cell between = board->findCell(cellName);
-        if (between.getEmpty()) return true; 
+        std::string cellName = std::string(1, char(96 + source->getColumn())) + std::string(1, '3');
+        Cell* between = board->findCell(cellName);
+        if (between->getEmpty()) return true; 
       }
     }
 
     // This logic holds if the piece is a black piece.
-    if (colour == "black") {
+    if (colour == "Black") {
       // Source cell must have row number 7 and destination cell must have row number 5.
-      if (source.getRow() == 7 && destination.getRow() == 5) {
+      if (source->getRow() == 7 && destination->getRow() == 5) {
         // The cell in the column at row number 6 must be empty.
-        std::string cellName = std::string(1, char(96 + source.getColumn())) + std::string(1, '6');
-        Cell between = board->findCell(cellName);
-        if (between.getEmpty()) return true; 
+        std::string cellName = std::string(1, char(96 + source->getColumn())) + std::string(1, '6');
+        Cell* between = board->findCell(cellName);
+        if (between->getEmpty()) return true; 
       }
     }
   }
 
   // Pawn captures a piece.
   // The destination cell is not empty.
-  if (!destination.getEmpty()) {
+  if (!destination->getEmpty()) {
     // The difference in column numbers must be either 1 or -1.
-    if ((source.getColumn() == destination.getColumn() + 1 ) || (source.getColumn() == destination.getColumn() - 1)) {
+    if ((source->getColumn() == destination->getColumn() + 1 ) || (source->getColumn() == destination->getColumn() - 1)) {
       // If the piece is white, the row number must increment by one, else decrement by one.
-      if (colour == "white" && (destination.getRow() == source.getRow() + 1)) return true;
-      if (colour == "black" && (destination.getRow() == source.getRow() - 1)) return true;
+      if (colour == "White" && (destination->getRow() == source->getRow() + 1)) return true;
+      if (colour == "Black" && (destination->getRow() == source->getRow() - 1)) return true;
     }
   }
 
@@ -115,7 +115,7 @@ Rook::Rook(std::string c) : Piece(c) {
 }
 
 // Function to check if the move is a valid move or not for a rook.
-bool Rook::isValid(Cell source, Cell destination, Board* board) {
+bool Rook::isValid(Cell* source, Cell* destination, Board* board) {
   return true;
 }
 
@@ -127,7 +127,7 @@ Knight::Knight(std::string c) : Piece(c) {
 }
 
 // Function to check if the move is a valid move or not for a knight.
-bool Knight::isValid(Cell source, Cell destination, Board* board) {
+bool Knight::isValid(Cell* source, Cell* destination, Board* board) {
   return true;
 }
 
@@ -139,7 +139,7 @@ Bishop::Bishop(std::string c) : Piece(c) {
 }
 
 // Function to check if the move is a valid move or not for a bishop.
-bool Bishop::isValid(Cell source, Cell destination, Board* board) {
+bool Bishop::isValid(Cell* source, Cell* destination, Board* board) {
   return true;
 }
 
@@ -150,7 +150,7 @@ Queen::Queen(std::string c) : Piece(c) {
 }
 
 // Function to check if the move is a valid move or not for a queen.
-bool Queen::isValid(Cell source, Cell destination, Board* board) {
+bool Queen::isValid(Cell* source, Cell* destination, Board* board) {
   return true;
 }
 
@@ -162,6 +162,6 @@ King::King(std::string c) : Piece(c) {
 }
 
 // Function to check if the move is a valid move or not for a king.
-bool King::isValid(Cell source, Cell destination, Board* board) {
+bool King::isValid(Cell* source, Cell* destination, Board* board) {
   return true;
 }

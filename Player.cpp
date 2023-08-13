@@ -1,15 +1,15 @@
 #include "Player.h"
 
 // Constructor
-Player::Player(std::string n) {
-  name = n;
+Player::Player(std::string c) {
+  colour = c;
   check = false;
   checkmate = false;
 }
 
 // Function to get the name of the player.
-std::string Player::getName() {
-  return name;
+std::string Player::getColour() {
+  return colour;
 }
 
 // Function to get if the player is under check.
