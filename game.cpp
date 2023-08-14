@@ -9,7 +9,7 @@ int main() {
   Player white = Player("White");
   Player black = Player("Black");
   Board board = Board(white, black);
-  Player players[2] = {white, black};
+  Player* players[2] = {board.getFirstPlayer(), board.getSecondPlayer()};
   int playerIndex = 0;
 
   std::cout << "Welcome to the CLI chess application." << std::endl;
@@ -22,9 +22,9 @@ int main() {
 
   while(!white.getCheckmate() && !black.getCheckmate()) {
     std::string input;
-    Player player = players[playerIndex];
-    Player opponent = players[(playerIndex+1)%2];
-    std::cout << player.getColour() << "'s turn: ";
+    Player* player = players[playerIndex];
+    Player* opponent = players[(playerIndex+1)%2];
+    std::cout << player->getColour() << "'s turn: ";
     std::getline(std::cin, input);
 
     // Check if the input provided is correct or not.
@@ -47,7 +47,7 @@ int main() {
 
     // Check if the piece present belongs to the player or not.
     if (!board.checkPieceBelongsToPlayer(board.findPiece(board.findCell(input.substr(2, 2))), player)) {
-      std::cout << "The specified piece doesn't belong to the " << player.getColour() << " player. Please try again. " << std::endl;
+      std::cout << "The specified piece doesn't belong to the " << player->getColour() << " player. Please try again. " << std::endl;
       continue;
     }
 

@@ -210,6 +210,30 @@ Queen::Queen(std::string c) : Piece(c) {
 
 // Function to check if the move is a valid move or not for a queen.
 bool Queen::isValid(Cell* source, Cell* destination, Board* board) {
+  // If the destination cell has a piece of the same colour, the move is invalid.
+  if (!destination->getEmpty() && board->checkCellPieceColour(destination, colour)) return false;
+
+  // All the invalid cases come here.
+  // If the difference is neither 0 for either row or column, nor equal.
+  int diffRow = std::abs(source->getRow() - destination->getRow());
+  int diffColumn = std::abs(source->getColumn() - destination->getColumn());
+  if (diffRow != diffColumn && diffRow != 0  && diffColumn!= 0) return false;
+
+  // If any of the cells in between is not empty.
+  int rowIncrement = 0, colIncrement = 0;
+  if (source->getRow() < destination->getRow()) rowIncrement = 1;
+  if (source->getRow() < destination->getRow()) rowIncrement = -1;
+  if (source->getColumn() < destination->getColumn()) colIncrement = 1;
+  if (source->getColumn() < destination->getColumn()) colIncrement = -1;
+  int i = source->getRow() + rowIncrement;
+  int j = source->getRow() + colIncrement;
+  while (i != destination->getRow() && j != destination->getColumn()) {
+    if (!board->checkCellEmpty(i - 1, j - 1)) return false;
+    i += rowIncrement;
+    j += colIncrement;
+  }
+
+  // If all the above cases are not true, it is a valid move.
   return true;
 }
 
@@ -222,5 +246,12 @@ King::King(std::string c) : Piece(c) {
 
 // Function to check if the move is a valid move or not for a king.
 bool King::isValid(Cell* source, Cell* destination, Board* board) {
-  return true;
+  // If the destination cell has a piece of the same colour, the move is invalid.
+  if (!destination->getEmpty() && board->checkCellPieceColour(destination, colour)) return false;
+
+  // For a valid case, the absolute value of difference between source and destination must be 0 or 1.
+  int diffRow = std::abs(source->getRow() - destination->getRow());
+  int diffColumn = std::abs(source->getColumn() - destination->getColumn());
+  if ((diffRow == 0 || diffRow == 1) && (diffColumn == 0 || diffColumn == 1)) return true;
+  return false;
 }

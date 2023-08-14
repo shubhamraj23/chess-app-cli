@@ -80,7 +80,16 @@ Board::Board(Player p1, Player p2) {
   // King.
   p = new King(p2.getColour());
   board[7][4] = Cell(7, 4, p);
+}
 
+// Function to return the first player.
+Player* Board::getFirstPlayer() {
+  return &p1;
+}
+
+// Function to return the second player.
+Player* Board::getSecondPlayer() {
+  return &p2;
 }
 
 // Function to print all the contents of the board.
@@ -127,8 +136,8 @@ bool Board::checkPiecePresent(char symbol, std::string cell) {
 }
 
 // Function to check if the piece belongs to the player or not.
-bool Board::checkPieceBelongsToPlayer(Piece* p, Player player) {
-  if (p->getColour() == player.getColour()) return true;
+bool Board::checkPieceBelongsToPlayer(Piece* p, Player* player) {
+  if (p->getColour() == player->getColour()) return true;
   return false;
 }
 
