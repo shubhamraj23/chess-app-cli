@@ -3,6 +3,10 @@
 
 // Default Constructor for initialization.
 Board::Board(Player p1, Player p2) {
+  // Initialize the players.
+  this->p1 = p1;
+  this->p2 = p2;
+
   // Initialize the empty cells.
   for (int i=2; i<6; i++) {
     for (int j=0; j<8; j++) {
@@ -128,6 +132,17 @@ bool Board::checkPieceBelongsToPlayer(Piece* p, Player player) {
   return false;
 }
 
+// Function to check if the piece present on the cell has the specified colour or not.
+bool Board::checkCellPieceColour(Cell* cell, std::string colour) {
+  if (cell->getPiece()->getColour() == colour) return true;
+  return false;
+}
+
+// Function to check if a cell with the specified coordinates is valid or not.
+bool Board::checkCellEmpty(int i, int j) {
+  return board[i][j].getEmpty();
+}
+
 // Function to map the character of a piece to its type.
 std::string Board::pieceMapper(char piece) {
   switch(piece) {
@@ -147,7 +162,7 @@ std::string Board::pieceMapper(char piece) {
 }
 
 // Function to check if the provided cell is a valid chess cell or not.
-bool Board::checkCell(char letter, char number) {
+bool Board::checkValidCell(char letter, char number) {
   if (int(letter) < 97 || int(letter) > 104) return false;
   if (int(number) < 49 || int(number) > 56) return false;
   return true;

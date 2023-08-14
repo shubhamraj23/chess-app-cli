@@ -10,6 +10,7 @@ class Player {
     bool checkmate;
 
   public:
+    Player();
     Player(std::string colour);
     std::string getColour();
     bool getCheck();

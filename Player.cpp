@@ -1,6 +1,9 @@
 #include "Player.h"
 
-// Constructor
+// Default constructor for initialization.
+Player::Player() {}
+
+// Constructor for players specifying a colour.
 Player::Player(std::string c) {
   colour = c;
   check = false;

@@ -39,6 +39,7 @@ bool Move::checkInput(std::string input) {
   if (input.length() != 7) return false;
   if (input[0] != 'P' && input[0] != 'R' && input[0] != 'N' && input[0] != 'B' && input[0] != 'Q' && input[0] != 'K') return false;
   if (input[1] != ' ' || input[4] != ' ') return false;
-  if (!Board::checkCell(input[2], input[3]) || !Board::checkCell(input[5], input[6])) return false;
+  if (!Board::checkValidCell(input[2], input[3]) || !Board::checkValidCell(input[5], input[6])) return false;
+  if (input.substr(2, 2) == input.substr(5, 2)) return false;
   return true;
 }

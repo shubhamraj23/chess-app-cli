@@ -93,11 +93,14 @@ bool Pawn::isValid(Cell* source, Cell* destination, Board* board) {
   // Pawn captures a piece.
   // The destination cell is not empty.
   if (!destination->getEmpty()) {
-    // The difference in column numbers must be either 1 or -1.
-    if ((source->getColumn() == destination->getColumn() + 1 ) || (source->getColumn() == destination->getColumn() - 1)) {
-      // If the piece is white, the row number must increment by one, else decrement by one.
-      if (colour == "White" && (destination->getRow() == source->getRow() + 1)) return true;
-      if (colour == "Black" && (destination->getRow() == source->getRow() - 1)) return true;
+    // The destination cell has a piece of different colour.
+    if (!board->checkCellPieceColour(destination, colour)) {
+      // The difference in column numbers must be either 1 or -1.
+      if ((source->getColumn() == destination->getColumn() + 1 ) || (source->getColumn() == destination->getColumn() - 1)) {
+        // If the piece is white, the row number must increment by one, else decrement by one.
+        if (colour == "White" && (destination->getRow() == source->getRow() + 1)) return true;
+        if (colour == "Black" && (destination->getRow() == source->getRow() - 1)) return true;
+      }
     }
   }
 
@@ -116,6 +119,31 @@ Rook::Rook(std::string c) : Piece(c) {
 
 // Function to check if the move is a valid move or not for a rook.
 bool Rook::isValid(Cell* source, Cell* destination, Board* board) {
+  // All the invalid cases come here.
+  // If the destination cell has a piece of the same colour.
+  if (!destination->getEmpty() && board->checkCellPieceColour(destination, colour)) return false;
+
+  // If both the row number and column number of source and destination are not the same.
+  if (source->getRow() != destination->getRow() && source->getColumn() != destination->getColumn()) return false;
+
+  // If any of the cells in between is not empty.
+  // If the traversal is across the rows.
+  if (source->getColumn() == destination->getColumn()) {
+    int increment = (source->getRow() < destination->getRow()) ? 1: -1;
+    for (int i = source->getRow(); i != destination->getRow(); i += increment) {
+      if (!board->checkCellEmpty(i-1, source->getColumn()-1)) return false;
+    }
+  }
+
+  // If the traversal is across the columns.
+  if (source->getRow() == destination->getRow()) {
+    int increment = (source->getColumn() < destination->getColumn()) ? 1: -1;
+    for (int i = source->getColumn(); i != destination->getColumn(); i += increment) {
+      if (!board->checkCellEmpty(source->getRow()-1, i-1)) return false;
+    }
+  }
+
+  // If all the above cases are not true, it is a valid move.
   return true;
 }
 
