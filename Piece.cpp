@@ -54,6 +54,9 @@ Pawn::Pawn(std::string c) : Piece(c) {
 // Function to check if the move is a valid move or not for a pawn.
 bool Pawn::isValid(Cell* source, Cell* destination, Board* board) {
   std::string colour = getColour();
+
+  // If the destination cell has a piece of the same colour, the move is invalid.
+  if (!destination->getEmpty() && board->checkCellPieceColour(destination, colour)) return false;
   
   // All the valid cases come here.
   // Pawn moves forward one step.
@@ -156,7 +159,14 @@ Knight::Knight(std::string c) : Piece(c) {
 
 // Function to check if the move is a valid move or not for a knight.
 bool Knight::isValid(Cell* source, Cell* destination, Board* board) {
-  return true;
+  // If the destination cell has a piece of the same colour, the move is invalid.
+  if (!destination->getEmpty() && board->checkCellPieceColour(destination, colour)) return false;
+
+  // For a valid case, the product of absolute value of difference between source and destination must be 2.
+  int diffRow = std::abs(source->getRow() - destination->getRow());
+  int diffColumn = std::abs(source->getColumn() - destination->getColumn());
+  if (diffRow * diffColumn == 2) return true;
+  return false;
 }
 
 
@@ -168,6 +178,27 @@ Bishop::Bishop(std::string c) : Piece(c) {
 
 // Function to check if the move is a valid move or not for a bishop.
 bool Bishop::isValid(Cell* source, Cell* destination, Board* board) {
+  // All the invalid cases come here.
+  // If the destination cell has a piece of the same colour.
+  if (!destination->getEmpty() && board->checkCellPieceColour(destination, colour)) return false;
+
+  // If the number of cells traversed along rows and columns is different.
+  int diffRow = std::abs(source->getRow() - destination->getRow());
+  int diffColumn = std::abs(source->getColumn() - destination->getColumn());
+  if (diffRow != diffColumn) return false;
+
+  // If any of the cells in between is not empty.
+  int rowIncrement = (source->getRow() < destination->getRow()) ? 1: -1;
+  int colIncrement = (source->getColumn() < destination->getColumn()) ? 1: -1;
+  int i = source->getRow() + rowIncrement;
+  int j = source->getColumn() + colIncrement;
+  while (i != destination->getRow() && j != destination->getColumn()) {
+    if (!board->checkCellEmpty(i - 1, j - 1)) return false;
+    i += rowIncrement;
+    j += colIncrement;
+  }
+
+  // If all the above cases are not true, it is a valid move.
   return true;
 }
 
