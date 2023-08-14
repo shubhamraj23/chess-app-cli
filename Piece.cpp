@@ -130,16 +130,16 @@ bool Rook::isValid(Cell* source, Cell* destination, Board* board) {
   // If the traversal is across the rows.
   if (source->getColumn() == destination->getColumn()) {
     int increment = (source->getRow() < destination->getRow()) ? 1: -1;
-    for (int i = source->getRow(); i != destination->getRow(); i += increment) {
-      if (!board->checkCellEmpty(i-1, source->getColumn()-1)) return false;
+    for (int i = source->getRow() + increment; i != destination->getRow(); i += increment) {
+      if (!board->checkCellEmpty(i - 1, source->getColumn() - 1)) return false;
     }
   }
 
   // If the traversal is across the columns.
   if (source->getRow() == destination->getRow()) {
     int increment = (source->getColumn() < destination->getColumn()) ? 1: -1;
-    for (int i = source->getColumn(); i != destination->getColumn(); i += increment) {
-      if (!board->checkCellEmpty(source->getRow()-1, i-1)) return false;
+    for (int i = source->getColumn() + increment; i != destination->getColumn(); i += increment) {
+      if (!board->checkCellEmpty(source->getRow() - 1, i - 1)) return false;
     }
   }
 
