@@ -22,6 +22,8 @@ int main() {
     std::string input;
     Player* player = players[playerIndex];
     Player* opponent = players[(playerIndex+1)%2];
+    player->setCurrentTurn(true);
+    opponent->setCurrentTurn(false);
     std::cout << player->getColour() << "'s turn: ";
     std::getline(std::cin, input);
 
@@ -71,7 +73,7 @@ int main() {
     // Checkmate
     
     // Does the opponent have a check threat from the player.
-    if (opponent->playerInCheck(player, &board)) {
+    if (opponent->playerInCheck(&board)) {
       opponent->setCheck(true);
       std::cout << opponent->getColour() << " is in check." << std::endl;
     }
@@ -80,3 +82,12 @@ int main() {
     playerIndex = (playerIndex+1)%2;
   }
 }
+
+// Player in check gets rid of check.
+// Player in check after moving
+// Checkmate
+// Castling
+// En pass
+// Pawn promotion
+// 3 move stalemate
+// Stalemate

@@ -7,6 +7,7 @@ Player::Player() {}
 // Constructor for players specifying a colour.
 Player::Player(std::string c) {
   colour = c;
+  currentTurn = false;
   check = false;
   checkmate = false;
 }
@@ -14,6 +15,16 @@ Player::Player(std::string c) {
 // Function to get the name of the player.
 std::string Player::getColour() {
   return colour;
+}
+
+// Function to check if the current turn is of the player or not.
+bool Player::getCurrentTurn() {
+  return currentTurn;
+}
+
+// Function to set if the current turn is of the player or not.
+void Player::setCurrentTurn(bool turn) {
+  currentTurn = turn;
 }
 
 // Function to get if the player is under check.
@@ -70,7 +81,8 @@ void Player::setKingCell(Cell* cell) {
 }
 
 // Function to see if the current player has a check threat from the opponent.
-bool Player::playerInCheck(Player* opponent, Board* board) {
+bool Player::playerInCheck(Board* board) {
+  Player* opponent = (board->getFirstPlayer()->getCurrentTurn()) ? board->getSecondPlayer() : board->getFirstPlayer();
   std::vector< Cell* >* opponentPieceLocationsAddress = opponent->getPieceLocations();
   std::vector< Cell* > opponentPieceLocations = *opponentPieceLocationsAddress;
   for (int i = 0; i < opponentPieceLocations.size(); i++) {

@@ -13,6 +13,7 @@ class Board;
 class Player {
   private:
     std::string colour;
+    bool currentTurn;
     bool check;
     bool checkmate;
     std::vector< Cell* > pieceLocations;
@@ -22,6 +23,8 @@ class Player {
     Player();
     Player(std::string colour);
     std::string getColour();
+    bool getCurrentTurn();
+    void setCurrentTurn(bool turn);
     bool getCheck();
     void setCheck(bool c);
     bool getCheckmate();
@@ -31,7 +34,7 @@ class Player {
     void removePieceLocation(Cell* cell);
     Cell* getKingCell();
     void setKingCell(Cell* cell);
-    bool playerInCheck(Player* opponent, Board* board);
+    bool playerInCheck(Board* board);
 };
 
 #endif
