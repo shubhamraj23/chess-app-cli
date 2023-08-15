@@ -21,7 +21,6 @@ class Piece {
     std::string getType();
     bool getAlive();
     void setAlive(bool a);
-    void move(Cell* source, Cell* destination, Board* board);
     virtual bool isValid(Cell* source, Cell* destination, Board* board) = 0;
 };
 

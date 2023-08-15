@@ -82,7 +82,7 @@ void Player::setKingCell(Cell* cell) {
 
 // Function to see if the current player has a check threat from the opponent.
 bool Player::playerInCheck(Board* board) {
-  Player* opponent = (board->getFirstPlayer()->getCurrentTurn()) ? board->getSecondPlayer() : board->getFirstPlayer();
+  Player* opponent = (this == board->getFirstPlayer()) ? board->getSecondPlayer() : board->getFirstPlayer();
   std::vector< Cell* >* opponentPieceLocationsAddress = opponent->getPieceLocations();
   std::vector< Cell* > opponentPieceLocations = *opponentPieceLocationsAddress;
   for (int i = 0; i < opponentPieceLocations.size(); i++) {

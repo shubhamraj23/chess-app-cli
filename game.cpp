@@ -65,6 +65,15 @@ int main() {
     // Move the piece.
     move.movePiece(&board);
 
+    // If the player's king is in check after the move, it is an invalid move.
+    if (player->playerInCheck(&board)) {
+      // Rollback the performed move.
+      move.rollback(&board);
+      std::cout << "Invalid move. Please try again." << std::endl;
+      continue;
+    }
+    player->setCheck(false);
+
     // Checkmate
     
     // Does the opponent have a check threat from the player.

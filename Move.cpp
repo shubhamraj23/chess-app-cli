@@ -5,6 +5,7 @@ Move::Move(Piece* p, Cell* s, Cell* d) {
   piece = p;
   source = s;
   destination = d;
+  capturedPiece = NULL;
 }
 
 // Function to get the piece that is moving.
@@ -24,13 +25,59 @@ Cell* Move::getDestination() {
 
 // Function to check if the move is a valid move or not.
 bool Move::checkValidMove(Board* board) {
-  // Other checks. King goes in check. King still in check. //TODO
   return piece->isValid(source, destination, board);
 }
 
 // Function to move the piece from source to destination.
 void Move::movePiece(Board* board) {
-  piece->move(source, destination, board);
+  // Get the player and the opponent.
+  Player* player = (board->getFirstPlayer()->getCurrentTurn()) ? board->getFirstPlayer() : board->getSecondPlayer();
+  Player* opponent = (board->getFirstPlayer()->getCurrentTurn()) ? board->getSecondPlayer() : board->getFirstPlayer();
+
+  // If the destination cell is not empty, remove the piece.
+  if (!destination->getEmpty()) {
+    Piece* p = destination->getPiece();
+    p->setAlive(false);
+    capturedPiece = p;
+    opponent->removePieceLocation(destination);
+  }
+
+  // Move the piece.
+  destination->setEmpty(false);
+  destination->setPiece(piece);
+  source->setEmpty(true);
+  source->setPiece(NULL);
+  player->removePieceLocation(source);
+  player->addPieceLocation(destination);
+
+  // If the moved piece was a king, set the new king location.
+  if (piece->getType() == "king") player->setKingCell(destination);
+}
+
+// Function to rollback the move.
+void Move::rollback(Board* board) {
+  // Get the player and the opponent.
+  Player* player = (board->getFirstPlayer()->getCurrentTurn()) ? board->getFirstPlayer() : board->getSecondPlayer();
+  Player* opponent = (board->getFirstPlayer()->getCurrentTurn()) ? board->getSecondPlayer() : board->getFirstPlayer();
+
+  // Move the piece back.
+  source->setEmpty(false);
+  source->setPiece(piece);
+  destination->setEmpty(true);
+  destination->setPiece(NULL);
+  player->removePieceLocation(destination);
+  player->addPieceLocation(source);
+
+  // If the moved piece was a king, set the original king location.
+  if (piece->getType() == "king") player->setKingCell(source);
+
+  // If a piece was captured, place the original piece back on the board.
+  if (capturedPiece != NULL) {
+    capturedPiece->setAlive(true);
+    destination->setEmpty(false);
+    destination->setPiece(capturedPiece);
+    opponent->addPieceLocation(destination);
+  }
 }
 
 // Static Functions go here.

@@ -28,33 +28,6 @@ void Piece::setAlive(bool a) {
   alive = a;
 }
 
-// Function to move a piece from the source to the destination.
-void Piece::move(Cell* source, Cell* destination, Board* board) {
-  // Get the player and the opponent.
-  Player* player = (board->getFirstPlayer()->getCurrentTurn()) ? board->getFirstPlayer() : board->getSecondPlayer();
-  Player* opponent = (board->getFirstPlayer()->getCurrentTurn()) ? board->getSecondPlayer() : board->getFirstPlayer();
-
-  // If the destination cell is not empty, remove the piece.
-  if (!destination->getEmpty()) {
-    Piece* p = destination->getPiece();
-    p->setAlive(false);
-    opponent->removePieceLocation(destination);
-    free(p);
-  }
-
-  // Move the piece.
-  Piece* p = source->getPiece();
-  destination->setEmpty(false);
-  destination->setPiece(p);
-  source->setEmpty(true);
-  source->setPiece(NULL);
-  player->removePieceLocation(source);
-  player->addPieceLocation(destination);
-
-  // If the moved piece was a king, set the new king location.
-  if (type == "king") player->setKingCell(destination);
-}
-
 // Implementation for Pawn Class
 // Constructor
 Pawn::Pawn(std::string c) : Piece(c) {
@@ -237,7 +210,7 @@ bool Queen::isValid(Cell* source, Cell* destination, Board* board) {
   if (source->getColumn() > destination->getColumn()) colIncrement = -1;
   int i = source->getRow() + rowIncrement;
   int j = source->getColumn() + colIncrement;
-  while (i != destination->getRow() && j != destination->getColumn()) {
+  while (i != destination->getRow() || j != destination->getColumn()) {
     if (!board->checkCellEmpty(i - 1, j - 1)) return false;
     i += rowIncrement;
     j += colIncrement;

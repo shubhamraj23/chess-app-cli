@@ -17,6 +17,7 @@ class Move {
     Piece* piece;
     Cell* source;
     Cell* destination;
+    Piece* capturedPiece;
 
   public:
     Move(Piece* piece, Cell* source, Cell* destination);
@@ -25,6 +26,7 @@ class Move {
     Cell* getDestination();
     bool checkValidMove(Board* board);
     void movePiece(Board* board);
+    void rollback(Board* board);
     static bool checkInput(std::string input);
 };
 
