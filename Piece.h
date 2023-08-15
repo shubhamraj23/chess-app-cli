@@ -3,9 +3,11 @@
 
 #include <string>
 #include "Cell.h"
+#include "Player.h"
 
 class Board;
 class Cell;
+class Player;
 
 class Piece {
   protected:
@@ -19,7 +21,7 @@ class Piece {
     std::string getType();
     bool getAlive();
     void setAlive(bool a);
-    void move(Cell* source, Cell* destination);
+    void move(Cell* source, Cell* destination, Player* opponent);
     virtual bool isValid(Cell* source, Cell* destination, Board* board) = 0;
 };
 

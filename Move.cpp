@@ -29,10 +29,11 @@ bool Move::checkValidMove(Board* board) {
 }
 
 // Function to move the piece from source to destination.
-void Move::movePiece() {
-  piece->move(source, destination);
+void Move::movePiece(Player* opponent) {
+  piece->move(source, destination, opponent);
 }
 
+// Static Functions go here.
 // Function to check if the input provided by the user is correct or not.
 bool Move::checkInput(std::string input) {
   if (input == "print") return true;

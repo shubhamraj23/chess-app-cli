@@ -6,9 +6,7 @@
 #include "Player.h"
 
 int main() {
-  Player white = Player("White");
-  Player black = Player("Black");
-  Board board = Board(white, black);
+  Board board = Board(Player("White"), Player("Black"));
   Player* players[2] = {board.getFirstPlayer(), board.getSecondPlayer()};
   int playerIndex = 0;
 
@@ -20,7 +18,7 @@ int main() {
   std::cout << "To move the pawn in front of the king two steps, the command would be: P e2 e4" << std::endl;
   std::cout << "Use the command print to print the contents of the board." << std::endl;
 
-  while(!white.getCheckmate() && !black.getCheckmate()) {
+  while(!board.getFirstPlayer()->getCheckmate() && !board.getSecondPlayer()->getCheckmate()) {
     std::string input;
     Player* player = players[playerIndex];
     Player* opponent = players[(playerIndex+1)%2];
@@ -63,7 +61,7 @@ int main() {
     }
 
     // Move the piece.
-    move.movePiece();
+    move.movePiece(opponent);
 
     // Check and checkmate.
 

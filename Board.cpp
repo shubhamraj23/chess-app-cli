@@ -19,33 +19,42 @@ Board::Board(Player p1, Player p2) {
   for (int j=0; j<8; j++) {
     Piece* p = new Pawn(p1.getColour());
     board[1][j] = Cell(1, j, p);
+    this->p1.addPiece(p);
   }
 
   // Both the rooks.
   Piece* p = new Rook(p1.getColour());
   board[0][0] = Cell(0, 0, p);
+  this->p1.addPiece(p);
   Piece* q = new Rook(p1.getColour());
   board[0][7] = Cell(0, 7, q);
+  this->p1.addPiece(q);
 
   // Both the knights.
   p = new Knight(p1.getColour());
   board[0][1] = Cell(0, 1, p);
+  this->p1.addPiece(p);
   q = new Knight(p1.getColour());
   board[0][6] = Cell(0, 6, q);
+  this->p1.addPiece(q);
 
   // Both the bishops.
   p = new Bishop(p1.getColour());
   board[0][2] = Cell(0, 2, p);
+  this->p1.addPiece(p);
   q = new Bishop(p1.getColour());
   board[0][5] = Cell(0, 5, q);
+  this->p1.addPiece(q);
 
   // Queen.
   p = new Queen(p1.getColour());
   board[0][3] = Cell(0, 3, p);
+  this->p1.addPiece(p);
   
   // King.
   p = new King(p1.getColour());
   board[0][4] = Cell(0, 4, p);
+  this->p1.addPiece(p);
   
 
   // Initialize the black pieces.
@@ -53,33 +62,42 @@ Board::Board(Player p1, Player p2) {
   for (int j=0; j<8; j++) {
     Piece* p = new Pawn(p2.getColour());
     board[6][j] = Cell(6, j, p);
+    this->p2.addPiece(p);
   }
 
   // Both the rooks.
   p = new Rook(p2.getColour());
   board[7][0] = Cell(7, 0, p);
+  this->p2.addPiece(p);
   q = new Rook(p2.getColour());
   board[7][7] = Cell(7, 7, q);
+  this->p2.addPiece(q);
 
   // Both the knights.
   p = new Knight(p2.getColour());
   board[7][1] = Cell(7, 1, p);
+  this->p2.addPiece(p);
   q = new Knight(p2.getColour());
   board[7][6] = Cell(7, 6, q);
+  this->p2.addPiece(q);
 
   // Both the bishops.
   p = new Bishop(p2.getColour());
   board[7][2] = Cell(7, 2, p);
+  this->p2.addPiece(p);
   q = new Bishop(p2.getColour());
   board[7][5] = Cell(7, 5, q);
+  this->p2.addPiece(q);
 
   // Queen.
   p = new Queen(p2.getColour());
   board[7][3] = Cell(7, 3, p);
+  this->p2.addPiece(p);
   
   // King.
   p = new King(p2.getColour());
   board[7][4] = Cell(7, 4, p);
+  this->p2.addPiece(p);
 }
 
 // Function to return the first player.
@@ -152,6 +170,7 @@ bool Board::checkCellEmpty(int i, int j) {
   return board[i][j].getEmpty();
 }
 
+// Static Functions
 // Function to map the character of a piece to its type.
 std::string Board::pieceMapper(char piece) {
   switch(piece) {

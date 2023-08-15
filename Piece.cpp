@@ -29,11 +29,12 @@ void Piece::setAlive(bool a) {
 }
 
 // Function to move a piece from the source to the destination.
-void Piece::move(Cell* source, Cell* destination) {
+void Piece::move(Cell* source, Cell* destination, Player* opponent) {
   // If the destination cell is not empty, remove the piece.
   if (!destination->getEmpty()) {
     Piece* p = destination->getPiece();
     p->setAlive(false);
+    opponent->removePiece(p);
     free(p);
   }
 
@@ -217,16 +218,16 @@ bool Queen::isValid(Cell* source, Cell* destination, Board* board) {
   // If the difference is neither 0 for either row or column, nor equal.
   int diffRow = std::abs(source->getRow() - destination->getRow());
   int diffColumn = std::abs(source->getColumn() - destination->getColumn());
-  if (diffRow != diffColumn && diffRow != 0  && diffColumn!= 0) return false;
+  if (diffRow != diffColumn && diffRow != 0 && diffColumn!= 0) return false;
 
   // If any of the cells in between is not empty.
   int rowIncrement = 0, colIncrement = 0;
   if (source->getRow() < destination->getRow()) rowIncrement = 1;
-  if (source->getRow() < destination->getRow()) rowIncrement = -1;
+  if (source->getRow() > destination->getRow()) rowIncrement = -1;
   if (source->getColumn() < destination->getColumn()) colIncrement = 1;
-  if (source->getColumn() < destination->getColumn()) colIncrement = -1;
+  if (source->getColumn() > destination->getColumn()) colIncrement = -1;
   int i = source->getRow() + rowIncrement;
-  int j = source->getRow() + colIncrement;
+  int j = source->getColumn() + colIncrement;
   while (i != destination->getRow() && j != destination->getColumn()) {
     if (!board->checkCellEmpty(i - 1, j - 1)) return false;
     i += rowIncrement;

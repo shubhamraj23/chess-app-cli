@@ -5,10 +5,12 @@
 #include "Board.h"
 #include "Cell.h"
 #include "Piece.h"
+#include "Player.h"
 
 class Board;
 class Cell;
 class Piece;
+class Player;
 
 class Move {
   private:
@@ -22,7 +24,7 @@ class Move {
     Cell* getSource();
     Cell* getDestination();
     bool checkValidMove(Board* board);
-    void movePiece();
+    void movePiece(Player* opponent);
     static bool checkInput(std::string input);
 };
 
