@@ -29,7 +29,11 @@ void Piece::setAlive(bool a) {
 }
 
 // Function to move a piece from the source to the destination.
-void Piece::move(Cell* source, Cell* destination, Player* opponent) {
+void Piece::move(Cell* source, Cell* destination, Board* board) {
+  // Get the player and the opponent.
+  Player* player = (board->getFirstPlayer()->getCurrentTurn()) ? board->getFirstPlayer() : board->getSecondPlayer();
+  Player* opponent = (board->getFirstPlayer()->getCurrentTurn()) ? board->getSecondPlayer() : board->getFirstPlayer();
+
   // If the destination cell is not empty, remove the piece.
   if (!destination->getEmpty()) {
     Piece* p = destination->getPiece();
@@ -44,6 +48,11 @@ void Piece::move(Cell* source, Cell* destination, Player* opponent) {
   destination->setPiece(p);
   source->setEmpty(true);
   source->setPiece(NULL);
+  player->removePieceLocation(source);
+  player->addPieceLocation(destination);
+
+  // If the moved piece was a king, set the new king location.
+  if (type == "king") player->setKingCell(destination);
 }
 
 // Implementation for Pawn Class

@@ -29,8 +29,8 @@ bool Move::checkValidMove(Board* board) {
 }
 
 // Function to move the piece from source to destination.
-void Move::movePiece(Player* opponent) {
-  piece->move(source, destination, opponent);
+void Move::movePiece(Board* board) {
+  piece->move(source, destination, board);
 }
 
 // Static Functions go here.

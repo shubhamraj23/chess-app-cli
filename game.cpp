@@ -63,12 +63,7 @@ int main() {
     }
 
     // Move the piece.
-    move.movePiece(opponent);
-    player->removePieceLocation(source);
-    player->addPieceLocation(destination);
-
-    // If the moved piece was a king, set the new king location.
-    if (input[0] == 'K') player->setKingCell(destination);
+    move.movePiece(&board);
 
     // Checkmate
     
@@ -82,12 +77,3 @@ int main() {
     playerIndex = (playerIndex+1)%2;
   }
 }
-
-// Player in check gets rid of check.
-// Player in check after moving
-// Checkmate
-// Castling
-// En pass
-// Pawn promotion
-// 3 move stalemate
-// Stalemate

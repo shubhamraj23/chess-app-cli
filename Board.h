@@ -8,6 +8,7 @@
 
 class Cell;
 class Piece;
+class Player;
 
 class Board {
   private:

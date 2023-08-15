@@ -24,7 +24,7 @@ class Move {
     Cell* getSource();
     Cell* getDestination();
     bool checkValidMove(Board* board);
-    void movePiece(Player* opponent);
+    void movePiece(Board* board);
     static bool checkInput(std::string input);
 };
 
