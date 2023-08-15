@@ -62,8 +62,19 @@ int main() {
 
     // Move the piece.
     move.movePiece(opponent);
+    player->removePieceLocation(source);
+    player->addPieceLocation(destination);
 
-    // Check and checkmate.
+    // If the moved piece was a king, set the new king location.
+    if (input[0] == 'K') player->setKingCell(destination);
+
+    // Checkmate
+    
+    // Does the opponent have a check threat from the player.
+    if (opponent->playerInCheck(player, &board)) {
+      opponent->setCheck(true);
+      std::cout << opponent->getColour() << " is in check." << std::endl;
+    }
 
     // Next player's turn.
     playerIndex = (playerIndex+1)%2;

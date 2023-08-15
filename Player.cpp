@@ -1,4 +1,5 @@
 #include "Player.h"
+#include "Board.h"
 
 // Default constructor for initialization.
 Player::Player() {}
@@ -35,25 +36,47 @@ void Player::setCheckmate(bool c) {
   checkmate = c;
 }
 
-// Function to get all the pieces of a player.
-std::vector< Piece* >* Player::getPieces() {
-  return &pieces;
+// Function to get all the piece locations of a player.
+std::vector< Cell* >* Player::getPieceLocations() {
+  return &pieceLocations;
 }
 
-// Function to add a new piece to the list of existing pieces.
-void Player::addPiece(Piece* p) {
-  pieces.push_back(p);
+// Function to add a new piece location to the list of existing piece locations.
+void Player::addPieceLocation(Cell* cell) {
+  pieceLocations.push_back(cell);
 }
 
-// Fuction to remove a piece from the list of existing pieces.
-void Player::removePiece(Piece* p) {
+// Fuction to remove a piece location from the list of existing piece locations.
+void Player::removePieceLocation(Cell* cell) {
   int index = 0;
-  for (int i = 0; i < pieces.size(); i++) {
-    if (pieces[i] == p) {
+  for (int i = 0; i < pieceLocations.size(); i++) {
+    if (pieceLocations[i] == cell) {
       index = i;
       break;
     }
   }
-  std::vector< Piece* >::iterator it = pieces.begin() + index;
-  pieces.erase(it);
+  std::vector< Cell* >::iterator it = pieceLocations.begin() + index;
+  pieceLocations.erase(it);
+}
+
+// Function to get king's cell.
+Cell* Player::getKingCell() {
+  return kingCell;
+}
+
+// Function to set king's cell.
+void Player::setKingCell(Cell* cell) {
+  kingCell = cell;
+}
+
+// Function to see if the current player has a check threat from the opponent.
+bool Player::playerInCheck(Player* opponent, Board* board) {
+  std::vector< Cell* >* opponentPieceLocationsAddress = opponent->getPieceLocations();
+  std::vector< Cell* > opponentPieceLocations = *opponentPieceLocationsAddress;
+  for (int i = 0; i < opponentPieceLocations.size(); i++) {
+    Cell* location = opponentPieceLocations[i];
+    Piece* p = location->getPiece();
+    if (p->isValid(location, kingCell, board)) return true; 
+  }
+  return false;
 }

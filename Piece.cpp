@@ -34,7 +34,7 @@ void Piece::move(Cell* source, Cell* destination, Player* opponent) {
   if (!destination->getEmpty()) {
     Piece* p = destination->getPiece();
     p->setAlive(false);
-    opponent->removePiece(p);
+    opponent->removePieceLocation(destination);
     free(p);
   }
 
