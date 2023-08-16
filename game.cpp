@@ -74,6 +74,33 @@ int main() {
     }
     player->setCheck(false);
 
+    // Pawn Promotion
+    if (move.getPiece()->getType() == "pawn" && (destination->getRow() == 1 || destination->getRow() == 8)) {
+      std::cout << "Your pawn has been promoted." << std::endl;
+      std::cout << "Enter the code of the piece you wish it to be promoted to: ";
+      std::string piece;
+
+      // Get the input of what the piece will be promoted to.
+      while (true) {
+        std::getline(std::cin, piece);
+        if (piece != "R" && piece != "N" && piece != "B" && piece != "Q") {
+          std::cout << "Invalid code. Please enter again: ";
+          continue;
+        }
+        break;
+      }
+
+      // Create the new piece.
+      Piece* promoted;
+      if (piece == "R") promoted = new Rook(player->getColour());
+      if (piece == "N") promoted = new Knight(player->getColour());
+      if (piece == "B") promoted = new Bishop(player->getColour());
+      if (piece == "Q") promoted = new Queen(player->getColour());
+
+      // Replace the pawn with the new piece.
+      destination->setPiece(promoted);
+    }
+
     // Checkmate
     
     // Does the opponent have a check threat from the player.
