@@ -26,7 +26,6 @@ class Move {
     Cell* getDestination();
     bool checkValidMove(Board* board);
     void movePiece(Board* board);
-    void rollback(Board* board);
     static bool checkInput(std::string input);
 };
 

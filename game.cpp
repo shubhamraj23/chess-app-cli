@@ -76,17 +76,20 @@ int main() {
       continue;
     }
 
-    // Move the piece.
-    move.movePiece(&board);
-
-    // If the player's king is in check after the move, it is an invalid move.
-    if (player->playerInCheck(&board)) {
-      // Rollback the performed move.
-      move.rollback(&board);
+    // Check if the player's king goes to check after the move.
+    Board copyBoard = board;
+    Cell* copySource = copyBoard.findCell(input.substr(2, 2));
+    Cell* copyDestination = copyBoard.findCell(input.substr(5, 2));
+    Move copyMove = Move(copyBoard.findPiece(copySource), copySource, copyDestination);
+    copyMove.movePiece(&copyBoard);
+    Player* copyPlayer = (copyBoard.getFirstPlayer()->getCurrentTurn()) ? copyBoard.getFirstPlayer() : copyBoard.getSecondPlayer();
+    if (copyPlayer->playerInCheck(&copyBoard)) {
       std::cout << "Invalid move. Please try again." << std::endl;
       continue;
     }
-    player->setCheck(false);
+
+    // The move is valid. Move the piece.
+    move.movePiece(&board);
 
     // Pawn Promotion
     if (move.getPiece()->getType() == "pawn" && (destination->getRow() == 1 || destination->getRow() == 8)) {

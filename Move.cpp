@@ -49,6 +49,7 @@ void Move::movePiece(Board* board) {
   source->setPiece(NULL);
   player->removePieceLocation(source);
   player->addPieceLocation(destination);
+  player->setCheck(false);
 
   // If the moved piece was a king, set the new king location.
   if (piece->getType() == "king") player->setKingCell(destination);
@@ -58,32 +59,6 @@ void Move::movePiece(Board* board) {
   if (piece->getType() == "rook") {
     if (source->getColumn() == 1) player->setQueenSideRookMoved(true);
     if (source->getColumn() == 8) player->setKingSideRookMoved(true);
-  }
-}
-
-// Function to rollback the move.
-void Move::rollback(Board* board) {
-  // Get the player and the opponent.
-  Player* player = (board->getFirstPlayer()->getCurrentTurn()) ? board->getFirstPlayer() : board->getSecondPlayer();
-  Player* opponent = (board->getFirstPlayer()->getCurrentTurn()) ? board->getSecondPlayer() : board->getFirstPlayer();
-
-  // Move the piece back.
-  source->setEmpty(false);
-  source->setPiece(piece);
-  destination->setEmpty(true);
-  destination->setPiece(NULL);
-  player->removePieceLocation(destination);
-  player->addPieceLocation(source);
-
-  // If the moved piece was a king, set the original king location.
-  if (piece->getType() == "king") player->setKingCell(source);
-
-  // If a piece was captured, place the original piece back on the board.
-  if (capturedPiece != NULL) {
-    capturedPiece->setAlive(true);
-    destination->setEmpty(false);
-    destination->setPiece(capturedPiece);
-    opponent->addPieceLocation(destination);
   }
 }
 
