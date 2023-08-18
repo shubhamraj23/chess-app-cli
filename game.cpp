@@ -16,6 +16,7 @@ int main() {
   std::cout << "Pawn: P" << std::endl << "Rook: R" << std::endl << "Knight: N" << std::endl << "Bishop: B" << std::endl << "Queen: Q" << std::endl << "King: K" << std::endl; 
   std::cout << "The white king starts the game on e1 and the black king on e8." << std::endl;
   std::cout << "To move the pawn in front of the king two steps, the command would be: P e2 e4" << std::endl;
+  std::cout << "Use 0-0 for kingside castling and use 0-0-0 for queenside castling." << std::endl;
   std::cout << "Use the command print to print the contents of the board." << std::endl;
 
   while(!board.getFirstPlayer()->getCheckmate() && !board.getSecondPlayer()->getCheckmate()) {
@@ -37,6 +38,19 @@ int main() {
     if (input == "print") {
       board.printBoard();
       continue;
+    }
+
+    // Castling
+    if (input == "0-0" || input == "0-0-0") {
+      bool kingSide = (input == "0-0") ? true : false;
+      
+      // Check if player can castle or not.
+      if (!player->canCastle(kingSide, &board)) {
+        std::cout << "Invalid move. Please try again." << std::endl;
+        continue;
+      }
+
+      // Perform the castling.
     }
 
     // Check if the correct piece is present at the source cell.
@@ -113,3 +127,7 @@ int main() {
     playerIndex = (playerIndex+1)%2;
   }
 }
+// Checkmate
+// Castling
+// En pass
+// Draws

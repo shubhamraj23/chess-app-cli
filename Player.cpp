@@ -10,6 +10,9 @@ Player::Player(std::string c) {
   currentTurn = false;
   check = false;
   checkmate = false;
+  kingMoved = false;
+  kingSideRookMoved = false;
+  queenSideRookMoved = false;
 }
 
 // Function to get the name of the player.
@@ -80,6 +83,21 @@ void Player::setKingCell(Cell* cell) {
   kingCell = cell;
 }
 
+// Function to set the value of kingMoved.
+void Player::setKingMoved(bool m) {
+  kingMoved = m;
+}
+
+// Function to set the value of kingSideRookMoved.
+void Player::setKingSideRookMoved(bool m) {
+  kingSideRookMoved = m;
+}
+
+// Function to set the value of queenSideRookMoved.
+void Player::setQueenSideRookMoved(bool m) {
+  queenSideRookMoved = m;
+}
+
 // Function to see if the current player has a check threat from the opponent.
 bool Player::playerInCheck(Board* board) {
   Player* opponent = (this == board->getFirstPlayer()) ? board->getSecondPlayer() : board->getFirstPlayer();
@@ -91,4 +109,9 @@ bool Player::playerInCheck(Board* board) {
     if (p->isValid(location, kingCell, board)) return true; 
   }
   return false;
+}
+
+// Function to check if the player can castle or not.
+bool Player::canCastle(bool side, Board* board) {
+
 }

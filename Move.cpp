@@ -52,6 +52,13 @@ void Move::movePiece(Board* board) {
 
   // If the moved piece was a king, set the new king location.
   if (piece->getType() == "king") player->setKingCell(destination);
+
+  // Set the values to help in castling.
+  if (piece->getType() == "king") player->setKingMoved(true);
+  if (piece->getType() == "rook") {
+    if (source->getColumn() == 1) player->setQueenSideRookMoved(true);
+    if (source->getColumn() == 8) player->setKingSideRookMoved(true);
+  }
 }
 
 // Function to rollback the move.
@@ -83,7 +90,7 @@ void Move::rollback(Board* board) {
 // Static Functions go here.
 // Function to check if the input provided by the user is correct or not.
 bool Move::checkInput(std::string input) {
-  if (input == "print") return true;
+  if (input == "print" || input == "0-0" || input == "0-0-0") return true;
   if (input.length() != 7) return false;
   if (input[0] != 'P' && input[0] != 'R' && input[0] != 'N' && input[0] != 'B' && input[0] != 'Q' && input[0] != 'K') return false;
   if (input[1] != ' ' || input[4] != ' ') return false;
