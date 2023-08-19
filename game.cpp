@@ -110,11 +110,11 @@ int main() {
     Cell* destination = board.findCell(input.substr(5, 2));
     Move move = Move(board.findPiece(source), source, destination);
 
-    // // Check if the move is a valid move or not.
-    // if (!move.checkValidMove(&board)) {
-    //   std::cout << "Invalid move. Please try again." << std::endl;
-    //   continue;
-    // }
+    // Check if the move is a valid move or not.
+    if (!move.checkValidMove(&board)) {
+      std::cout << "Invalid move. Please try again." << std::endl;
+      continue;
+    }
 
     // Check if the player's king goes to check after the move.
     if (playerCheckAfterMove(board, input.substr(2, 2), input.substr(5, 2))) {
@@ -165,9 +165,6 @@ int main() {
     playerIndex = (playerIndex+1)%2;
   }
 }
-// Checkmate
-// En pass
-// Draws
 
 // Helper functions go here
 // Check if a  player goes in check after performing a move.
@@ -186,6 +183,3 @@ bool playerCheckAfterMove(Board board, std::string source, std::string destinati
   if (player->playerInCheck(&board)) return true;
   return false;
 }
-
-// Piece capture on check still shows check -Because piecelocation is unable to find the location, it removes wrong piece.
-// Castling testing.

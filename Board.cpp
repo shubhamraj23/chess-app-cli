@@ -102,6 +102,33 @@ Board::Board(Player p1, Player p2) {
   this->p2.setKingCell(&board[7][4]);
 }
 
+// Copy Constructor for the board.
+Board::Board(const Board& board) {
+  // Copy the players.
+  p1 = board.p1;
+  p2 = board.p2;
+  p1.emptyLocations();
+  p2.emptyLocations();
+  
+  // Copy the cells in the board
+  for (int i=0; i<8; i++) {
+    for (int j=0; j<8; j++) {
+      this->board[i][j] = board.board[i][j];
+
+      // If the cell is not empty, copy the piece details to the player.
+      if (!this->board[i][j].getEmpty()) {
+        std::string colour = this->board[i][j].getPiece()->getColour();
+        (colour == p1.getColour()) ? p1.addPieceLocation(&this->board[i][j]) : p2.addPieceLocation(&this->board[i][j]);
+
+        // If the piece is a king, add the location details.
+        if (this->board[i][j].getPiece()->getType() == "king") {
+          (colour == p1.getColour()) ? p1.setKingCell(&this->board[i][j]) : p2.setKingCell(&this->board[i][j]);
+        }
+      }
+    }
+  }
+}
+
 // Function to return the first player.
 Player* Board::getFirstPlayer() {
   return &p1;

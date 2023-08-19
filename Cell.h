@@ -17,6 +17,7 @@ class Cell {
     Cell();
     Cell(int i, int j);
     Cell(int i, int j, Piece* p);
+    Cell(const Cell& cell);
     int getRow();
     int getColumn();
     bool getEmpty();

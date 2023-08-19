@@ -15,6 +15,18 @@ Player::Player(std::string c) {
   queenSideRookMoved = false;
 }
 
+// Copy Constructor for the player.
+Player::Player(const Player& player) {
+  colour = player.colour;
+  currentTurn = player.currentTurn;
+  check = player.check;
+  checkmate = player.checkmate;
+  kingMoved = player.kingMoved;
+  kingSideRookMoved = player.kingSideRookMoved;
+  queenSideRookMoved = player.queenSideRookMoved;
+  kingCell = NULL;
+}
+
 // Function to get the name of the player.
 std::string Player::getColour() {
   return colour;
@@ -71,6 +83,11 @@ void Player::removePieceLocation(Cell* cell) {
   }
   std::vector< Cell* >::iterator it = pieceLocations.begin() + index;
   pieceLocations.erase(it);
+}
+
+// Function to empty the list of piece locations.
+void Player::emptyLocations() {
+  pieceLocations.clear();
 }
 
 // Function to get king's cell.

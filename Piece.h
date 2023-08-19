@@ -17,6 +17,7 @@ class Piece {
 
   public:
     Piece(std::string colour);
+    Piece(const Piece& p);
     std::string getColour();
     std::string getType();
     bool getAlive();
@@ -27,36 +28,42 @@ class Piece {
 class Pawn : public Piece {
   public:
     Pawn(std::string colour);
+    Pawn(const Piece& p);
     bool isValid(Cell* source, Cell* destination, Board* board) override;
 };
 
 class Rook : public Piece {
   public:
     Rook(std::string colour);
+    Rook(const Piece& p);
     bool isValid(Cell* source, Cell* destination, Board* board) override;
 };
 
 class Knight : public Piece {
   public:
     Knight(std::string colour);
+    Knight(const Piece& p);
     bool isValid(Cell* source, Cell* destination, Board* board) override;
 };
 
 class Bishop : public Piece {
   public:
     Bishop(std::string colour);
+    Bishop(const Piece& p);
     bool isValid(Cell* source, Cell* destination, Board* board) override;
 };
 
 class Queen : public Piece {
   public:
     Queen(std::string colour);
+    Queen(const Piece& p);
     bool isValid(Cell* source, Cell* destination, Board* board) override;
 };
 
 class King : public Piece {
   public:
     King(std::string colour);
+    King(const Piece& p);
     bool isValid(Cell* source, Cell* destination, Board* board) override;
 };
 

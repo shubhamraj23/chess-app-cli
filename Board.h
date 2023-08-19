@@ -18,6 +18,7 @@ class Board {
 
   public:
     Board(Player p1, Player p2);
+    Board(const Board& board);
     Player* getFirstPlayer();
     Player* getSecondPlayer();
     void printBoard();

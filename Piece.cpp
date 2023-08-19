@@ -8,6 +8,13 @@ Piece::Piece(std::string c) {
   alive = true;
 }
 
+// Copy Constructor for the piece.
+Piece::Piece(const Piece& p) {
+  colour = p.colour;
+  type = p.type;
+  alive = p.alive;
+}
+
 // Function to get the colour of the piece.
 std::string Piece::getColour() {
   return colour;
@@ -33,6 +40,9 @@ void Piece::setAlive(bool a) {
 Pawn::Pawn(std::string c) : Piece(c) {
   type = "pawn";
 }
+
+// Copy Constructor
+Pawn::Pawn(const Piece& p) : Piece(p) {}
 
 // Function to check if the move is a valid move or not for a pawn.
 bool Pawn::isValid(Cell* source, Cell* destination, Board* board) {
@@ -103,6 +113,9 @@ Rook::Rook(std::string c) : Piece(c) {
   type = "rook";
 }
 
+// Copy Constructor
+Rook::Rook(const Piece& p) : Piece(p) {}
+
 // Function to check if the move is a valid move or not for a rook.
 bool Rook::isValid(Cell* source, Cell* destination, Board* board) {
   // All the invalid cases come here.
@@ -140,6 +153,9 @@ Knight::Knight(std::string c) : Piece(c) {
   type = "knight";
 }
 
+// Copy Constructor
+Knight::Knight(const Piece& p) : Piece(p) {}
+
 // Function to check if the move is a valid move or not for a knight.
 bool Knight::isValid(Cell* source, Cell* destination, Board* board) {
   // If the destination cell has a piece of the same colour, the move is invalid.
@@ -158,6 +174,9 @@ bool Knight::isValid(Cell* source, Cell* destination, Board* board) {
 Bishop::Bishop(std::string c) : Piece(c) {
   type = "bishop";
 }
+
+// Copy Constructor
+Bishop::Bishop(const Piece& p) : Piece(p) {}
 
 // Function to check if the move is a valid move or not for a bishop.
 bool Bishop::isValid(Cell* source, Cell* destination, Board* board) {
@@ -190,6 +209,9 @@ bool Bishop::isValid(Cell* source, Cell* destination, Board* board) {
 Queen::Queen(std::string c) : Piece(c) {
   type = "queen";
 }
+
+// Copy Constructor
+Queen::Queen(const Piece& p) : Piece(p) {}
 
 // Function to check if the move is a valid move or not for a queen.
 bool Queen::isValid(Cell* source, Cell* destination, Board* board) {
@@ -226,6 +248,9 @@ bool Queen::isValid(Cell* source, Cell* destination, Board* board) {
 King::King(std::string c) : Piece(c) {
   type = "king";
 }
+
+// Copy Constructor
+King::King(const Piece& p) : Piece(p) {}
 
 // Function to check if the move is a valid move or not for a king.
 bool King::isValid(Cell* source, Cell* destination, Board* board) {

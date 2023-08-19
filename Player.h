@@ -25,6 +25,7 @@ class Player {
   public:
     Player();
     Player(std::string colour);
+    Player(const Player& player);
     std::string getColour();
     bool getCurrentTurn();
     void setCurrentTurn(bool turn);
@@ -35,6 +36,7 @@ class Player {
     std::vector< Cell* >* getPieceLocations();
     void addPieceLocation(Cell* cell);
     void removePieceLocation(Cell* cell);
+    void emptyLocations();
     Cell* getKingCell();
     void setKingCell(Cell* cell);
     void setKingMoved(bool m);
