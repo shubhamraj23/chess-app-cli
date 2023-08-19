@@ -1,5 +1,6 @@
 #include "Player.h"
 #include "Board.h"
+#include "Move.h"
 
 // Default constructor for initialization.
 Player::Player() {}
@@ -128,5 +129,42 @@ bool Player::canCastle(bool side, Board* board) {
   }
 
   // If all the above cases are not true, the player can castle.
+  return true;
+}
+
+// Function to check if the player is checkmate.
+bool Player::checkMate(Board* board) {
+  // All the existing pieces of the player.
+  for (int i = 0; i < pieceLocations.size(); i++) {
+    Cell* source = pieceLocations[i];
+    Piece* p = source->getPiece();
+    
+    // All the destination cells on the board.
+    for (int row = 1; row <=8; row++) {
+      for (int col = 1; col <= 8; col++) {
+        std::string destinationCellName = std::string(1, char(col + 96)) + std::string(1, char(row + 48));
+        Cell* destination = board->findCell(destinationCellName);
+
+        // Check if the move from source to destination is a valid move.
+        if (p->isValid(source, destination, board)) {
+          // Create a copy of the original board.
+          Board b = *board;
+          Board copyBoard = b;
+
+          // Move the piece on the copied board.
+          std::string sourceCellName = std::string(1, char(source->getColumn() + 96)) + std::string(1, char(source->getRow() + 48));
+          Cell* sourceCopy = copyBoard.findCell(sourceCellName);
+          Cell* destinationCopy = copyBoard.findCell(destinationCellName);
+          Piece* pieceCopy = copyBoard.findPiece(sourceCopy);
+          Move move = Move(pieceCopy, sourceCopy, destinationCopy);
+          move.movePiece(&copyBoard, true);
+
+          // If the player is no longer in check, it is not checkmate.
+          Player* player = (copyBoard.getFirstPlayer()->getCurrentTurn()) ? copyBoard.getSecondPlayer() : copyBoard.getFirstPlayer();          
+          if (!player->playerInCheck(&copyBoard)) return false;
+        } 
+      }
+    }
+  }
   return true;
 }

@@ -38,6 +38,7 @@ class Player {
     void setKingCell(Cell* cell);
     bool playerInCheck(Board* board);
     bool canCastle(bool side, Board* board);
+    bool checkMate(Board* board);
 };
 
 #endif

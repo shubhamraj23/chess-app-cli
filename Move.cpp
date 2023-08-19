@@ -28,10 +28,18 @@ bool Move::checkValidMove(Board* board) {
 }
 
 // Function to move the piece from source to destination.
-void Move::movePiece(Board* board) {
+void Move::movePiece(Board* board, bool checkmateMove) {
   // Get the player and the opponent.
-  Player* player = (board->getFirstPlayer()->getCurrentTurn()) ? board->getFirstPlayer() : board->getSecondPlayer();
-  Player* opponent = (board->getFirstPlayer()->getCurrentTurn()) ? board->getSecondPlayer() : board->getFirstPlayer();
+  Player* player; 
+  Player* opponent;
+  if (checkmateMove) {
+    player = (board->getFirstPlayer()->getCurrentTurn()) ? board->getSecondPlayer() : board->getFirstPlayer();
+    opponent = (board->getFirstPlayer()->getCurrentTurn()) ? board->getFirstPlayer() : board->getSecondPlayer();
+  }
+  else {
+    player = (board->getFirstPlayer()->getCurrentTurn()) ? board->getFirstPlayer() : board->getSecondPlayer();
+    opponent = (board->getFirstPlayer()->getCurrentTurn()) ? board->getSecondPlayer() : board->getFirstPlayer();
+  }
 
   // If the destination cell is not empty, remove the piece.
   if (!destination->getEmpty()) {

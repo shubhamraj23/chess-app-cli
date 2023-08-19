@@ -68,7 +68,7 @@ int main() {
       Cell* kingSourceCell = player->getKingCell();
       Cell* kingDestinationCell = board.findCell(kingDestination);
       Move kingMove = Move(board.findPiece(kingSourceCell), kingSourceCell, kingDestinationCell);
-      kingMove.movePiece(&board);
+      kingMove.movePiece(&board, false);
 
       // Move the rook.
       int rookStartColumn = (kingSide) ? 8 : 1;
@@ -78,14 +78,21 @@ int main() {
       Cell* rookSourceCell = board.findCell(rookSource);
       Cell* rookDestinationCell = board.findCell(rookDestination);
       Move rookMove = Move(board.findPiece(rookSourceCell), rookSourceCell, rookDestinationCell);
-      rookMove.movePiece(&board);
+      rookMove.movePiece(&board, false);
 
-      // Checkmate
-    
       // Does the opponent have a check threat from the player.
       if (opponent->playerInCheck(&board)) {
         opponent->setCheck(true);
-        std::cout << opponent->getColour() << " is in check." << std::endl;
+      }
+
+      // Is the opponent checkmate.
+      if (opponent->getCheck()) {
+        if (opponent->checkMate(&board)) {
+          std::cout << "Checkmate. " << player->getColour() << " wins." << std::endl;
+        }
+        else {
+          std::cout << opponent->getColour() << " is in check." << std::endl;
+        }
       }
 
       // Next player's turn.
@@ -123,7 +130,7 @@ int main() {
     }
 
     // The move is valid. Move the piece.
-    move.movePiece(&board);
+    move.movePiece(&board, false);
     player->setCheck(false);
 
     // Pawn Promotion
@@ -153,12 +160,21 @@ int main() {
       destination->setPiece(promoted);
     }
 
-    // Checkmate
-    
     // Does the opponent have a check threat from the player.
     if (opponent->playerInCheck(&board)) {
       opponent->setCheck(true);
-      std::cout << opponent->getColour() << " is in check." << std::endl;
+    }
+
+    // Is the opponent checkmate.
+    if (opponent->getCheck()) {
+      if (opponent->checkMate(&board)) {
+        opponent->setCheckmate(true);
+        std::cout << "Checkmate. " << player->getColour() << " wins." << std::endl;
+        break;
+      }
+      else {
+        std::cout << opponent->getColour() << " is in check." << std::endl;
+      }
     }
 
     // Next player's turn.
@@ -177,7 +193,7 @@ bool playerCheckAfterMove(Board board, std::string source, std::string destinati
   Cell* sourceCell = board.findCell(source);
   Cell* destinationCell = board.findCell(destination);
   Move move = Move(board.findPiece(sourceCell), sourceCell, destinationCell);
-  move.movePiece(&board);
+  move.movePiece(&board, false);
 
   // Check if the player goes in check.
   if (player->playerInCheck(&board)) return true;

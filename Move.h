@@ -24,7 +24,7 @@ class Move {
     Cell* getSource();
     Cell* getDestination();
     bool checkValidMove(Board* board);
-    void movePiece(Board* board);
+    void movePiece(Board* board, bool checkmateMove);
     static bool checkInput(std::string input);
 };
 
