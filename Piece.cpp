@@ -116,6 +116,16 @@ Rook::Rook(std::string c) : Piece(c) {
 // Copy Constructor
 Rook::Rook(const Piece& p) : Piece(p) {}
 
+// Function to return if the rook has moved.
+bool Rook::getMoved() {
+  return moved;
+}
+
+// Function to set if the rook has moved.
+void Rook::setMoved(bool m) {
+  moved = m;
+}
+
 // Function to check if the move is a valid move or not for a rook.
 bool Rook::isValid(Cell* source, Cell* destination, Board* board) {
   // All the invalid cases come here.
@@ -251,6 +261,16 @@ King::King(std::string c) : Piece(c) {
 
 // Copy Constructor
 King::King(const Piece& p) : Piece(p) {}
+
+// Function to return if the king has moved.
+bool King::getMoved() {
+  return moved;
+}
+
+// Function to set if the king has moved.
+void King::setMoved(bool m) {
+  moved = m;
+}
 
 // Function to check if the move is a valid move or not for a king.
 bool King::isValid(Cell* source, Cell* destination, Board* board) {

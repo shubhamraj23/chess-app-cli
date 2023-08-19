@@ -10,9 +10,6 @@ Player::Player(std::string c) {
   currentTurn = false;
   check = false;
   checkmate = false;
-  kingMoved = false;
-  kingSideRookMoved = false;
-  queenSideRookMoved = false;
 }
 
 // Copy Constructor for the player.
@@ -21,9 +18,6 @@ Player::Player(const Player& player) {
   currentTurn = player.currentTurn;
   check = player.check;
   checkmate = player.checkmate;
-  kingMoved = player.kingMoved;
-  kingSideRookMoved = player.kingSideRookMoved;
-  queenSideRookMoved = player.queenSideRookMoved;
   kingCell = NULL;
 }
 
@@ -100,21 +94,6 @@ void Player::setKingCell(Cell* cell) {
   kingCell = cell;
 }
 
-// Function to set the value of kingMoved.
-void Player::setKingMoved(bool m) {
-  kingMoved = m;
-}
-
-// Function to set the value of kingSideRookMoved.
-void Player::setKingSideRookMoved(bool m) {
-  kingSideRookMoved = m;
-}
-
-// Function to set the value of queenSideRookMoved.
-void Player::setQueenSideRookMoved(bool m) {
-  queenSideRookMoved = m;
-}
-
 // Function to see if the current player has a check threat from the opponent.
 bool Player::playerInCheck(Board* board) {
   Player* opponent = (this == board->getFirstPlayer()) ? board->getSecondPlayer() : board->getFirstPlayer();
@@ -130,17 +109,21 @@ bool Player::playerInCheck(Board* board) {
 
 // Function to check if the player can castle or not.
 bool Player::canCastle(bool side, Board* board) {
+  // Find the rook's initial position.
+  int row = kingCell->getRow();
+  int column = (side) ? 8 : 1;
+  std::string rookPosition = std::string(1, char(column+96)) + std::string(1, char(row+48));
+  Cell* rookCell = board->findCell(rookPosition);
+
   // Invalid cases come here.
   // If the rook or king have moved or the player is in check, the player cannot castle.
-  bool rookMoved = (side) ? kingSideRookMoved : queenSideRookMoved;
+  bool kingMoved = kingCell->getPiece()->getMoved();
+  bool rookMoved = rookCell->getPiece()->getMoved();
   if (rookMoved || kingMoved || check) return false;
 
   // If any cell in between the king and the rook is not empty, the player cannot castle.
-  int row = kingCell->getRow();
-  int col = 5;
-  int finalCol = (side) ? 8 : 1;
   int increment = (side) ? 1 : -1;
-  for (int i = col + increment; i != finalCol; i += increment) {
+  for (int i = 5 + increment; i != column; i += increment) {
     if (!board->checkCellEmpty(row - 1, i - 1)) return false;
   }
 

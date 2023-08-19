@@ -18,9 +18,6 @@ class Player {
     bool checkmate;
     std::vector< Cell* > pieceLocations;
     Cell* kingCell;
-    bool kingMoved;
-    bool kingSideRookMoved;
-    bool queenSideRookMoved;
 
   public:
     Player();
@@ -39,9 +36,6 @@ class Player {
     void emptyLocations();
     Cell* getKingCell();
     void setKingCell(Cell* cell);
-    void setKingMoved(bool m);
-    void setKingSideRookMoved(bool m);
-    void setQueenSideRookMoved(bool m);
     bool playerInCheck(Board* board);
     bool canCastle(bool side, Board* board);
 };

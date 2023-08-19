@@ -52,11 +52,7 @@ void Move::movePiece(Board* board) {
   if (piece->getType() == "king") player->setKingCell(destination);
 
   // Set the values to help in castling.
-  if (piece->getType() == "king") player->setKingMoved(true);
-  if (piece->getType() == "rook") {
-    if (source->getColumn() == 1) player->setQueenSideRookMoved(true);
-    if (source->getColumn() == 8) player->setKingSideRookMoved(true);
-  }
+  if (piece->getType() == "king" || piece->getType() == "rook") piece->setMoved(true);
 }
 
 // Static Functions go here.
