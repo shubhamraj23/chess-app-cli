@@ -5,6 +5,9 @@
 #include "Move.h"
 #include "Player.h"
 
+// Function declarations.
+bool playerCheckAfterMove(Board board, std::string source, std::string destination);
+
 int main() {
   Board board = Board(Player("White"), Player("Black"));
   Player* players[2] = {board.getFirstPlayer(), board.getSecondPlayer()};
@@ -50,7 +53,44 @@ int main() {
         continue;
       }
 
-      // Perform the castling.
+      // Check if the player's king goes to check after the move.
+      int row = player->getKingCell()->getRow();
+      int column = (kingSide) ? 7 : 3;
+      std::string kingSource = "e" + std::string(1, char(row+48));
+      std::string kingDestination = std::string(1, char(column+96)) + std::string(1, char(row+48));
+      if (playerCheckAfterMove(board, kingSource, kingDestination)) {
+        std::cout << "Invalid move. Please try again." << std::endl;
+        continue;
+      }
+
+      // Perform the castling. Use goto to go to checkmate.
+      // Move the king.
+      Cell* kingSourceCell = player->getKingCell();
+      Cell* kingDestinationCell = board.findCell(kingDestination);
+      Move kingMove = Move(board.findPiece(kingSourceCell), kingSourceCell, kingDestinationCell);
+      kingMove.movePiece(&board);
+
+      // Move the rook.
+      int rookStartColumn = (kingSide) ? 8 : 1;
+      int rookEndColumn = (kingSide) ? 6 : 4;
+      std::string rookSource = std::string(1, char(rookStartColumn+96)) + std::string(1, char(row+48));
+      std::string rookDestination = std::string(1, char(rookEndColumn+96)) + std::string(1, char(row+48));
+      Cell* rookSourceCell = board.findCell(rookSource);
+      Cell* rookDestinationCell = board.findCell(rookDestination);
+      Move rookMove = Move(board.findPiece(rookSourceCell), rookSourceCell, rookDestinationCell);
+      rookMove.movePiece(&board);
+
+      // Checkmate
+    
+      // Does the opponent have a check threat from the player.
+      if (opponent->playerInCheck(&board)) {
+        opponent->setCheck(true);
+        std::cout << opponent->getColour() << " is in check." << std::endl;
+      }
+
+      // Next player's turn.
+      playerIndex = (playerIndex+1)%2;
+      continue;
     }
 
     // Check if the correct piece is present at the source cell.
@@ -70,26 +110,21 @@ int main() {
     Cell* destination = board.findCell(input.substr(5, 2));
     Move move = Move(board.findPiece(source), source, destination);
 
-    // Check if the move is a valid move or not.
-    if (!move.checkValidMove(&board)) {
-      std::cout << "Invalid move. Please try again." << std::endl;
-      continue;
-    }
+    // // Check if the move is a valid move or not.
+    // if (!move.checkValidMove(&board)) {
+    //   std::cout << "Invalid move. Please try again." << std::endl;
+    //   continue;
+    // }
 
     // Check if the player's king goes to check after the move.
-    Board copyBoard = board;
-    Cell* copySource = copyBoard.findCell(input.substr(2, 2));
-    Cell* copyDestination = copyBoard.findCell(input.substr(5, 2));
-    Move copyMove = Move(copyBoard.findPiece(copySource), copySource, copyDestination);
-    copyMove.movePiece(&copyBoard);
-    Player* copyPlayer = (copyBoard.getFirstPlayer()->getCurrentTurn()) ? copyBoard.getFirstPlayer() : copyBoard.getSecondPlayer();
-    if (copyPlayer->playerInCheck(&copyBoard)) {
+    if (playerCheckAfterMove(board, input.substr(2, 2), input.substr(5, 2))) {
       std::cout << "Invalid move. Please try again." << std::endl;
       continue;
     }
 
     // The move is valid. Move the piece.
     move.movePiece(&board);
+    player->setCheck(false);
 
     // Pawn Promotion
     if (move.getPiece()->getType() == "pawn" && (destination->getRow() == 1 || destination->getRow() == 8)) {
@@ -131,6 +166,26 @@ int main() {
   }
 }
 // Checkmate
-// Castling
 // En pass
 // Draws
+
+// Helper functions go here
+// Check if a  player goes in check after performing a move.
+bool playerCheckAfterMove(Board board, std::string source, std::string destination) {
+  // Find the player.
+  Player* player = (board.getFirstPlayer()->getCurrentTurn()) ? board.getFirstPlayer() : board.getSecondPlayer();
+  Player* opponent = (board.getFirstPlayer()->getCurrentTurn()) ? board.getSecondPlayer() : board.getFirstPlayer();
+
+  // Move the piece.
+  Cell* sourceCell = board.findCell(source);
+  Cell* destinationCell = board.findCell(destination);
+  Move move = Move(board.findPiece(sourceCell), sourceCell, destinationCell);
+  move.movePiece(&board);
+
+  // Check if the player goes in check.
+  if (player->playerInCheck(&board)) return true;
+  return false;
+}
+
+// Piece capture on check still shows check -Because piecelocation is unable to find the location, it removes wrong piece.
+// Castling testing.

@@ -17,7 +17,6 @@ class Move {
     Piece* piece;
     Cell* source;
     Cell* destination;
-    Piece* capturedPiece;
 
   public:
     Move(Piece* piece, Cell* source, Cell* destination);

@@ -5,7 +5,6 @@ Move::Move(Piece* p, Cell* s, Cell* d) {
   piece = p;
   source = s;
   destination = d;
-  capturedPiece = NULL;
 }
 
 // Function to get the piece that is moving.
@@ -38,7 +37,6 @@ void Move::movePiece(Board* board) {
   if (!destination->getEmpty()) {
     Piece* p = destination->getPiece();
     p->setAlive(false);
-    capturedPiece = p;
     opponent->removePieceLocation(destination);
   }
 
@@ -49,7 +47,6 @@ void Move::movePiece(Board* board) {
   source->setPiece(NULL);
   player->removePieceLocation(source);
   player->addPieceLocation(destination);
-  player->setCheck(false);
 
   // If the moved piece was a king, set the new king location.
   if (piece->getType() == "king") player->setKingCell(destination);

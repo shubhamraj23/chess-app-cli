@@ -113,5 +113,20 @@ bool Player::playerInCheck(Board* board) {
 
 // Function to check if the player can castle or not.
 bool Player::canCastle(bool side, Board* board) {
+  // Invalid cases come here.
+  // If the rook or king have moved or the player is in check, the player cannot castle.
+  bool rookMoved = (side) ? kingSideRookMoved : queenSideRookMoved;
+  if (rookMoved || kingMoved || check) return false;
 
+  // If any cell in between the king and the rook is not empty, the player cannot castle.
+  int row = kingCell->getRow();
+  int col = 5;
+  int finalCol = (side) ? 8 : 1;
+  int increment = (side) ? 1 : -1;
+  for (int i = col + increment; i != finalCol; i += increment) {
+    if (!board->checkCellEmpty(row - 1, i - 1)) return false;
+  }
+
+  // If all the above cases are not true, the player can castle.
+  return true;
 }
