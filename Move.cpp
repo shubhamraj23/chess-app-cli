@@ -47,12 +47,10 @@ void Move::movePiece(Board* board) {
   source->setPiece(NULL);
   player->removePieceLocation(source);
   player->addPieceLocation(destination);
+  piece->setMoved(true);
 
   // If the moved piece was a king, set the new king location.
   if (piece->getType() == "king") player->setKingCell(destination);
-
-  // Set the values to help in castling.
-  if (piece->getType() == "king" || piece->getType() == "rook") piece->setMoved(true);
 }
 
 // Static Functions go here.

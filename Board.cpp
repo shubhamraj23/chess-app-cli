@@ -113,7 +113,8 @@ Board::Board(const Board& board) {
   // Copy the cells in the board
   for (int i=0; i<8; i++) {
     for (int j=0; j<8; j++) {
-      this->board[i][j] = board.board[i][j];
+      Cell c = board.board[i][j];
+      this->board[i][j] = c;
 
       // If the cell is not empty, copy the piece details to the player.
       if (!this->board[i][j].getEmpty()) {

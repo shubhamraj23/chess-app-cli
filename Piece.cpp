@@ -6,6 +6,7 @@
 Piece::Piece(std::string c) {
   colour = c;
   alive = true;
+  moved = false;
 }
 
 // Copy Constructor for the piece.
@@ -13,6 +14,7 @@ Piece::Piece(const Piece& p) {
   colour = p.colour;
   type = p.type;
   alive = p.alive;
+  moved = p.moved;
 }
 
 // Function to get the colour of the piece.
@@ -33,6 +35,16 @@ bool Piece::getAlive() {
 // Function to set the alive status of a piece.
 void Piece::setAlive(bool a) {
   alive = a;
+}
+
+// Function to return if the piece has moved.
+bool Piece::getMoved() {
+  return moved;
+}
+
+// Function to set if the piece has moved.
+void Piece::setMoved(bool m) {
+  moved = m;
 }
 
 // Implementation for Pawn Class
@@ -115,16 +127,6 @@ Rook::Rook(std::string c) : Piece(c) {
 
 // Copy Constructor
 Rook::Rook(const Piece& p) : Piece(p) {}
-
-// Function to return if the rook has moved.
-bool Rook::getMoved() {
-  return moved;
-}
-
-// Function to set if the rook has moved.
-void Rook::setMoved(bool m) {
-  moved = m;
-}
 
 // Function to check if the move is a valid move or not for a rook.
 bool Rook::isValid(Cell* source, Cell* destination, Board* board) {
@@ -261,16 +263,6 @@ King::King(std::string c) : Piece(c) {
 
 // Copy Constructor
 King::King(const Piece& p) : Piece(p) {}
-
-// Function to return if the king has moved.
-bool King::getMoved() {
-  return moved;
-}
-
-// Function to set if the king has moved.
-void King::setMoved(bool m) {
-  moved = m;
-}
 
 // Function to check if the move is a valid move or not for a king.
 bool King::isValid(Cell* source, Cell* destination, Board* board) {

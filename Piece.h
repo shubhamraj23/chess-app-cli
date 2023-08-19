@@ -14,6 +14,7 @@ class Piece {
     std::string colour;
     std::string type;
     bool alive;
+    bool moved;
 
   public:
     Piece(std::string colour);
@@ -22,9 +23,9 @@ class Piece {
     std::string getType();
     bool getAlive();
     void setAlive(bool a);
+    bool getMoved();
+    void setMoved(bool m);
     virtual bool isValid(Cell* source, Cell* destination, Board* board) = 0;
-    virtual bool getMoved();
-    virtual void setMoved(bool m);
 };
 
 class Pawn : public Piece {
@@ -35,14 +36,9 @@ class Pawn : public Piece {
 };
 
 class Rook : public Piece {
-  private:
-    bool moved;
-
   public:
     Rook(std::string colour);
     Rook(const Piece& p);
-    bool getMoved() override;
-    void setMoved(bool m) override;
     bool isValid(Cell* source, Cell* destination, Board* board) override;
 };
 
@@ -68,14 +64,9 @@ class Queen : public Piece {
 };
 
 class King : public Piece {
-  private:
-    bool moved;
-  
   public:
     King(std::string colour);
     King(const Piece& p);
-    bool getMoved() override;
-    void setMoved(bool m) override;
     bool isValid(Cell* source, Cell* destination, Board* board) override;
 };
 
