@@ -112,8 +112,6 @@ bool Pawn::isValid(Cell* source, Cell* destination, Board* board) {
     }
   }
 
-  // En pass
-
   // If none of the conditions satisfy, the move is invalid.
   return false;
 }

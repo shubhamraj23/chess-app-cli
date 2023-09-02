@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <vector>
 #include "Board.h"
 #include "Cell.h"
 #include "Move.h"
@@ -7,8 +8,10 @@
 
 // Function declarations.
 bool playerCheckAfterMove(Board board, std::string source, std::string destination);
+bool playerCheckAfterEnPass(Board board, std::string source, std::string destination);
 
 int main() {
+  std::vector< std::string > moves;
   Board board = Board(Player("White"), Player("Black"));
   Player* players[2] = {board.getFirstPlayer(), board.getSecondPlayer()};
   int playerIndex = 0;
@@ -79,6 +82,7 @@ int main() {
       Cell* rookDestinationCell = board.findCell(rookDestination);
       Move rookMove = Move(board.findPiece(rookSourceCell), rookSourceCell, rookDestinationCell);
       rookMove.movePiece(&board, false);
+      moves.push_back(input);
 
       // Does the opponent have a check threat from the player.
       if (opponent->playerInCheck(&board)) {
@@ -117,21 +121,47 @@ int main() {
     Cell* destination = board.findCell(input.substr(5, 2));
     Move move = Move(board.findPiece(source), source, destination);
 
+    std::string moveType = "regular";
     // Check if the move is a valid move or not.
     if (!move.checkValidMove(&board)) {
+      // If the normal move is invalid, check if it is an en pass move
+      move.enPassCheck(moves[moves.size() - 1]) ? moveType = "enpass" : moveType = "invalid";
+    }
+    if (moveType == "invalid") {
       std::cout << "Invalid move. Please try again." << std::endl;
       continue;
     }
 
-    // Check if the player's king goes to check after the move.
-    if (playerCheckAfterMove(board, input.substr(2, 2), input.substr(5, 2))) {
+    // Check if the player's king goes to check after the regular move.
+    if (moveType == "regular" && playerCheckAfterMove(board, input.substr(2, 2), input.substr(5, 2))) {
+      std::cout << "Invalid move. Please try again." << std::endl;
+      continue;
+    }
+    // Check if player's king goes to check after en pass.
+    if (moveType == "enpass" && playerCheckAfterEnPass(board, input.substr(2, 2), input.substr(5, 2))) {
       std::cout << "Invalid move. Please try again." << std::endl;
       continue;
     }
 
     // The move is valid. Move the piece.
+    // Move the pawn backward for enpass.
+    if (moveType == "enpass") {
+      std::string colour = player->getColour();
+
+      // Get the destination of pawn to be captured.
+      char column = input[5];
+      char sourceRow = (colour == "White") ? '5' : '4';
+      char destinationRow = (colour == "White") ? '6' : '3';
+
+      // Move the pawn backward.
+      Cell* sourceCell = board.findCell(std::string(1, column) + std::string(1, sourceRow));
+      Cell* destinationCell = board.findCell(std::string(1, column) + std::string(1, destinationRow));
+      Move move = Move(board.findPiece(sourceCell), sourceCell, destinationCell);
+      move.movePiece(&board, true);
+    }
     move.movePiece(&board, false);
     player->setCheck(false);
+    moves.push_back(input);
 
     // Pawn Promotion
     if (move.getPiece()->getType() == "pawn" && (destination->getRow() == 1 || destination->getRow() == 8)) {
@@ -183,12 +213,11 @@ int main() {
 }
 
 // Helper functions go here
-// Check if a  player goes in check after performing a move.
+// Check if a player goes in check after performing a move.
 bool playerCheckAfterMove(Board board, std::string source, std::string destination) {
   // Find the player.
   Player* player = (board.getFirstPlayer()->getCurrentTurn()) ? board.getFirstPlayer() : board.getSecondPlayer();
-  Player* opponent = (board.getFirstPlayer()->getCurrentTurn()) ? board.getSecondPlayer() : board.getFirstPlayer();
-
+  
   // Move the piece.
   Cell* sourceCell = board.findCell(source);
   Cell* destinationCell = board.findCell(destination);
@@ -198,4 +227,25 @@ bool playerCheckAfterMove(Board board, std::string source, std::string destinati
   // Check if the player goes in check.
   if (player->playerInCheck(&board)) return true;
   return false;
+}
+
+// Check if a player goes in check after performing an en pass.
+bool playerCheckAfterEnPass(Board board, std::string source, std::string destination) {
+  // Find the player's colour.
+  Player* player = (board.getFirstPlayer()->getCurrentTurn()) ? board.getFirstPlayer() : board.getSecondPlayer();
+  std::string colour = player->getColour();
+  
+  // Get the destination of pawn to be captured.
+  char column = destination[0];
+  char sourceRow = (colour == "White") ? '5' : '4';
+  char destinationRow = (colour == "White") ? '6' : '3';
+
+  // Move the pawn backward.
+  Cell* sourceCell = board.findCell(std::string(1, column) + std::string(1, sourceRow));
+  Cell* destinationCell = board.findCell(std::string(1, column) + std::string(1, destinationRow));
+  Move move = Move(board.findPiece(sourceCell), sourceCell, destinationCell);
+  move.movePiece(&board, true);
+
+  // Check if the player goes in check after capture.
+  return playerCheckAfterMove(board, source, destination);
 }

@@ -61,6 +61,37 @@ void Move::movePiece(Board* board, bool checkmateMove) {
   if (piece->getType() == "king") player->setKingCell(destination);
 }
 
+// Check if the move is a valid enpass move.
+bool Move::enPassCheck(std::string prevMove) {
+  if (prevMove.size() != 7) return false;
+
+  // Check if the last move was a pawn moving two pieces.
+  int steps = std::abs(prevMove[3] - prevMove[6]);
+  if (prevMove[0] != 'P' || steps != 2) return false;
+
+  // The piece moving must be a pawn.
+  if (piece->getType() == "pawn") {
+    // Destination cell must be empty.
+    if (destination->getEmpty()) {
+      // The difference in column numbers must be either 1 or -1.
+      if ((source->getColumn() == destination->getColumn() + 1 ) || (source->getColumn() == destination->getColumn() - 1)) {
+        // Destination column must be same as that of previously moved pawn.
+        if (destination->getColumn() == (prevMove[5] - 'a') + 1) {
+          if (piece->getColour() == "White") {
+            if (source->getRow() == 5 && destination->getRow() == 6) return true;
+          }
+          if (piece->getColour() == "Black") {
+            if (source->getRow() == 4 && destination->getRow() == 3) return true;
+          }
+        }
+      }
+    }
+  }
+
+  // If the any of the above case is not true, return false.
+  return false;
+}
+
 // Static Functions go here.
 // Function to check if the input provided by the user is correct or not.
 bool Move::checkInput(std::string input) {
