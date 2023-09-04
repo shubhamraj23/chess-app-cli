@@ -28,11 +28,11 @@ bool Move::checkValidMove(Board* board) {
 }
 
 // Function to move the piece from source to destination.
-void Move::movePiece(Board* board, bool checkmateMove) {
+void Move::movePiece(Board* board, bool opponentMove) {
   // Get the player and the opponent.
   Player* player; 
   Player* opponent;
-  if (checkmateMove) {
+  if (opponentMove) {
     player = (board->getFirstPlayer()->getCurrentTurn()) ? board->getSecondPlayer() : board->getFirstPlayer();
     opponent = (board->getFirstPlayer()->getCurrentTurn()) ? board->getFirstPlayer() : board->getSecondPlayer();
   }

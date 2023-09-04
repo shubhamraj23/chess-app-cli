@@ -24,6 +24,8 @@ int main() {
   std::cout << "To move the pawn in front of the king two steps, the command would be: P e2 e4" << std::endl;
   std::cout << "Use 0-0 for kingside castling and use 0-0-0 for queenside castling." << std::endl;
   std::cout << "Use the command print to print the contents of the board." << std::endl;
+  std::cout << "Use the command draw to request for a draw." << std::endl;
+  std::cout << "Use the command forfeit to forfeit the game." << std::endl;
 
   while(!board.getFirstPlayer()->getCheckmate() && !board.getSecondPlayer()->getCheckmate()) {
     std::string input;
@@ -33,6 +35,30 @@ int main() {
     opponent->setCurrentTurn(false);
     std::cout << player->getColour() << "'s turn: ";
     std::getline(std::cin, input);
+
+    // Check if the player requested for a draw.
+    if (input == "draw") {
+      std::cout << player->getColour() << " has requested for a draw." << std::endl;
+      std::cout << "Type draw to accept a draw. To not accept it, type anything else." << std::endl;
+      std::cout << opponent->getColour() << "'s turn: ";
+      std::string drawInput;
+      std::getline(std::cin, drawInput);
+      if (drawInput == "draw") {
+        std::cout << "The request for draw has been accepted. The game ends in a draw." << std::endl;
+        break;
+      }
+      else {
+        std::cout << "The request for draw has not been accepted. The game continues." << std::endl;
+        continue;
+      }
+    }
+
+    // Check if the player forfeited the game.
+    if (input == "forfeit") {
+      std::cout << player->getColour() << " has forfeited the game." << std::endl;
+      std::cout << opponent->getColour() << " wins" << std::endl;
+      break;
+    }
 
     // Check if the input provided is correct or not.
     if (!Move::checkInput(input)) {
@@ -89,13 +115,22 @@ int main() {
         opponent->setCheck(true);
       }
 
-      // Is the opponent checkmate.
+      // Is the opponent checkmate or stalemate.
       if (opponent->getCheck()) {
-        if (opponent->checkMate(&board)) {
+        if (opponent->validMove(&board)) {
+          opponent->setCheckmate(true);
           std::cout << "Checkmate. " << player->getColour() << " wins." << std::endl;
+          break;
         }
         else {
           std::cout << opponent->getColour() << " is in check." << std::endl;
+        }
+      }
+      else {
+        if (opponent->validMove(&board)) {
+          // If no valid move without check, it is a stalemate.
+          std::cout << "Stalemate. The game ends in a draw." << std::endl;
+          break;
         }
       }
 
@@ -195,15 +230,22 @@ int main() {
       opponent->setCheck(true);
     }
 
-    // Is the opponent checkmate.
+    // Is the opponent checkmate or stalemate.
     if (opponent->getCheck()) {
-      if (opponent->checkMate(&board)) {
+      if (opponent->validMove(&board)) {
         opponent->setCheckmate(true);
         std::cout << "Checkmate. " << player->getColour() << " wins." << std::endl;
         break;
       }
       else {
         std::cout << opponent->getColour() << " is in check." << std::endl;
+      }
+    }
+    else {
+      if (opponent->validMove(&board)) {
+        // If no valid move without check, it is a stalemate.
+        std::cout << "Stalemate. The game ends in a draw." << std::endl;
+        break;
       }
     }
 

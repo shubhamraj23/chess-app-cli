@@ -132,8 +132,8 @@ bool Player::canCastle(bool side, Board* board) {
   return true;
 }
 
-// Function to check if the player is checkmate.
-bool Player::checkMate(Board* board) {
+// Function to check if the player has any valid moves left or not.
+bool Player::validMove(Board* board) {
   // All the existing pieces of the player.
   for (int i = 0; i < pieceLocations.size(); i++) {
     Cell* source = pieceLocations[i];
