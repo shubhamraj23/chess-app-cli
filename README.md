@@ -27,11 +27,11 @@ The structure of various commands that can be used in the game are as follows:
     - **King:** K
   - Use the standard chessboard notation for references to the different cells. The notation must be in lowercase. The white king starts the game on e1 and the black king on e8.
   - Example: To move the pawn in front of the white king forward by two steps, the command would be: P e2 e4
-- ***Castling***
+- ***Castling:***
   Use 0-0 for kingside castling and use 0-0-0 for queenside castling.
-- ***Requesting a draw***
+- ***Requesting a draw:***
   Use the command draw to request a draw. The opponent can accept the draw request by typing draw and reject the request by typing anything else.
-- ***Forfeiting the game***
+- ***Forfeiting the game:***
   Use the command forfeit to forfeit the game.
-- ***Printing the contents of the board***
+- ***Printing the contents of the board:***
   Since this is a command-line application, there can be a need to view the contents of the board from time to time. Use the command print to print the contents of the board.
